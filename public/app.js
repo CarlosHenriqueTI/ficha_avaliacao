@@ -491,6 +491,245 @@ window.addEventListener('load',function(){
     showToast('✓ Ficha zerada com sucesso!');
   });
 
+  // ===== PERSISTÊNCIA DE DADOS =====
+  function saveFormData() {
+    var formData = {
+      timestamp: Date.now(),
+      inputs: {},
+      checkboxes: {},
+      selects: {},
+      radios: {},
+      scores: scoreData,
+      gds: gdsResps,
+      evaValue: document.getElementById('evaVal').textContent,
+      tugElapsed: tugElapsed,
+      probCount: probCount,
+      evoCount: evoCount,
+      problems: [],
+      meds: [],
+      evos: []
+    };
+    
+    // Salvar inputs, textareas, selects
+    document.querySelectorAll('input[type="text"], input[type="number"], input[type="date"], input[type="tel"], textarea, select').forEach(function(el){
+      if(!el.readOnly) {
+        if(el.id) formData.inputs[el.id] = el.value;
+        else if(el.name) formData.inputs[el.name] = el.value;
+      }
+    });
+    
+    // Salvar checkboxes
+    document.querySelectorAll('input[type="checkbox"]').forEach(function(el){
+      if(el.id) formData.checkboxes[el.id] = el.checked;
+      else if(el.name) formData.checkboxes[el.name] = el.checked;
+    });
+    
+    // Salvar elementos dinâmicos (Problemas)
+    document.querySelectorAll('#problemList > div').forEach(function(div){
+      var input = div.querySelector('.dyn-input');
+      if(input) formData.problems.push(input.value);
+    });
+    
+    // Salvar medicamentos
+    document.querySelectorAll('#medBody tr').forEach(function(tr){
+      var cells = tr.querySelectorAll('input[type="text"]');
+      if(cells.length >= 4) {
+        formData.meds.push({
+          med: cells[0].value,
+          conc: cells[1].value,
+          posol: cells[2].value,
+          dur: cells[3].value
+        });
+      }
+    });
+    
+    // Salvar evoluções
+    document.querySelectorAll('#evolucoes > .evolucao-card').forEach(function(card){
+      var dateInput = card.querySelector('input[type="date"]');
+      var textarea = card.querySelector('textarea');
+      if(dateInput && textarea) {
+        formData.evos.push({
+          date: dateInput.value,
+          text: textarea.value,
+          created: card.getAttribute('data-created')
+        });
+      }
+    });
+    
+    // Salvar classes ativas
+    formData.activeClasses = {};
+    document.querySelectorAll('.radio-btn.active, .tag-check.active, .s-btn.active, .r-btn.active').forEach(function(el){
+      var parent = el.closest('[onclick]');
+      if(el.id) formData.activeClasses[el.id] = true;
+    });
+    
+    localStorage.setItem('fisio-form-data', JSON.stringify(formData));
+    return formData;
+  }
+  
+  function loadFormData() {
+    var saved = localStorage.getItem('fisio-form-data');
+    if(!saved) return false;
+    
+    try {
+      var formData = JSON.parse(saved);
+      var horasSalvo = Math.round((Date.now() - formData.timestamp) / (1000 * 60));
+      
+      // Restaurar inputs
+      Object.keys(formData.inputs).forEach(function(key){
+        var el = document.getElementById(key);
+        if(!el) el = document.querySelector('[name="' + key + '"]');
+        if(el && !el.readOnly) el.value = formData.inputs[key];
+      });
+      
+      // Restaurar checkboxes
+      Object.keys(formData.checkboxes).forEach(function(key){
+        var el = document.getElementById(key);
+        if(!el) el = document.querySelector('[name="' + key + '"]');
+        if(el && el.type === 'checkbox') el.checked = formData.checkboxes[key];
+      });
+      
+      // Restaurar scores
+      scoreData = formData.scores || {};
+      gdsResps = formData.gds || {};
+      
+      // Restaurar EVA
+      if(formData.evaValue) {
+        document.getElementById('evaVal').textContent = formData.evaValue;
+        var val = parseInt(formData.evaValue);
+        document.getElementById('evaDesc').textContent = evaDescs[val];
+        document.getElementById('evaHandle').style.left = (val * 10) + '%';
+      }
+      
+      // Restaurar TUG
+      if(formData.tugElapsed) {
+        tugElapsed = formData.tugElapsed;
+        document.getElementById('tugDisplay').textContent = (tugElapsed / 1000).toFixed(1);
+      }
+      
+      // Restaurar contadores
+      probCount = formData.probCount || 0;
+      evoCount = formData.evoCount || 0;
+      
+      // Restaurar problemas
+      if(formData.problems && formData.problems.length) {
+        formData.problems.forEach(function(prob){
+          addProblema();
+          var inputs = document.querySelectorAll('#problemList .dyn-input');
+          if(inputs.length) inputs[inputs.length - 1].value = prob;
+        });
+      }
+      
+      // Restaurar medicamentos
+      if(formData.meds && formData.meds.length) {
+        document.getElementById('medBody').innerHTML = '';
+        formData.meds.forEach(function(med){
+          addMed();
+          var tr = document.getElementById('medBody').lastChild;
+          if(tr) {
+            var cells = tr.querySelectorAll('input[type="text"]');
+            if(cells[0]) cells[0].value = med.med || '';
+            if(cells[1]) cells[1].value = med.conc || '';
+            if(cells[2]) cells[2].value = med.posol || '';
+            if(cells[3]) cells[3].value = med.dur || '';
+          }
+        });
+      }
+      
+      // Restaurar evoluções
+      if(formData.evos && formData.evos.length) {
+        document.getElementById('evolucoes').innerHTML = '';
+        formData.evos.forEach(function(evo){
+          addEvolucao();
+          var card = document.getElementById('evolucoes').lastChild;
+          if(card) {
+            var dateInput = card.querySelector('input[type="date"]');
+            var textarea = card.querySelector('textarea');
+            if(dateInput) dateInput.value = evo.date || '';
+            if(textarea) textarea.value = evo.text || '';
+            if(evo.created) card.setAttribute('data-created', evo.created);
+            lockIfOld(card);
+          }
+        });
+      }
+      
+      // Restaurar classes ativas
+      Object.keys(formData.activeClasses).forEach(function(id){
+        var el = document.getElementById(id);
+        if(el) el.classList.add('active');
+      });
+      
+      // Recalcular todos os scores
+      setTimeout(function(){
+        calcKatz();
+        calcLaw();
+        calcSarc();
+        calcApgar();
+        calcMAN();
+        calcFrail();
+        calcMEEM();
+        calcGDS();
+        calcVM();
+        rebuildGDSUI();
+        updateProgress();
+      }, 100);
+      
+      showToast('✓ Dados restaurados (' + horasSalvo + ' min atrás)');
+      
+      // Mostrar botão de restaurar
+      var restoreBtn = document.getElementById('restoreBtn');
+      if(restoreBtn && restoreBtn.style.display === 'none') {
+        restoreBtn.style.display = 'inline-block';
+      }
+      
+      return true;
+    } catch(e) {
+      console.error('Erro ao restaurar dados:', e);
+      return false;
+    }
+  }
+  
+  function clearSavedData() {
+    localStorage.removeItem('fisio-form-data');
+    var restoreBtn = document.getElementById('restoreBtn');
+    if(restoreBtn) restoreBtn.style.display = 'none';
+    showToast('✓ Dados salvos limpos');
+  }
+  
+  // Botão de salvar
+  var saveBtn = document.getElementById('saveBtn');
+  if(saveBtn) {
+    saveBtn.addEventListener('click', function(){
+      saveFormData();
+      showToast('💾 Dados salvos com sucesso!');
+      
+      // Mostrar botão de restaurar
+      var restoreBtn = document.getElementById('restoreBtn');
+      if(restoreBtn) restoreBtn.style.display = 'inline-block';
+    });
+  }
+  
+  // Botão de restaurar
+  var restoreBtn = document.getElementById('restoreBtn');
+  if(restoreBtn) {
+    restoreBtn.addEventListener('click', function(){
+      if(confirm('Deseja RESTAURAR os dados salvos? Os dados atuais serão sobrescritos.')) {
+        loadFormData();
+      }
+    });
+  }
+  
+  // Verificar dados salvos ao carregar a página
+  window.addEventListener('load', function(){
+    var dv=document.getElementById('dataAval'); if(dv) dv.valueAsDate=new Date();
+    
+    // Tentar restaurar dados salvos
+    if(localStorage.getItem('fisio-form-data')) {
+      var restoreBtn = document.getElementById('restoreBtn');
+      if(restoreBtn) restoreBtn.style.display = 'inline-block';
+    }
+  });
+  
   // Autosave indicator (simple)
   var badge = document.getElementById('saveBadge');
   var badgeText = document.getElementById('saveBadgeText');
