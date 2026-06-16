@@ -35,6 +35,137 @@ function scrollTo(id) {
   if(el) el.scrollIntoView({behavior:'smooth', block:'start'});
 }
 
+// ===== PERSISTÊNCIA DE DADOS (loadFormData DEVE estar aqui, antes do load event) =====
+function loadFormData() {
+  var saved = localStorage.getItem('fisio-form-data');
+  if(!saved) {
+    console.log('[RESTORE] Nenhum dado salvo encontrado');
+    return false;
+  }
+  
+  console.log('[RESTORE] Iniciando restauração...');
+  try {
+    var formData = JSON.parse(saved);
+    var horasSalvo = Math.round((Date.now() - formData.timestamp) / (1000 * 60));
+    
+    // Limpar elementos dinâmicos antes de restaurar
+    document.getElementById('problemList').innerHTML = '';
+    document.getElementById('medBody').innerHTML = '';
+    document.getElementById('evolucoes').innerHTML = '';
+    probCount = 0;
+    evoCount = 0;
+    
+    // Restaurar inputs
+    Object.keys(formData.inputs).forEach(function(key){
+      var el = document.getElementById(key);
+      if(!el) el = document.querySelector('[name="' + key + '"]');
+      if(el && !el.readOnly) el.value = formData.inputs[key];
+    });
+    
+    // Restaurar checkboxes
+    Object.keys(formData.checkboxes).forEach(function(key){
+      var el = document.getElementById(key);
+      if(!el) el = document.querySelector('[name="' + key + '"]');
+      if(el && el.type === 'checkbox') el.checked = formData.checkboxes[key];
+    });
+    
+    // Restaurar scores
+    scoreData = formData.scores || {};
+    gdsResps = formData.gds || {};
+    
+    // Restaurar EVA
+    if(formData.evaValue) {
+      document.getElementById('evaVal').textContent = formData.evaValue;
+      var val = parseInt(formData.evaValue);
+      document.getElementById('evaDesc').textContent = evaDescs[val];
+      document.getElementById('evaHandle').style.left = (val * 10) + '%';
+    }
+    
+    // Restaurar TUG
+    if(formData.tugElapsed) {
+      tugElapsed = formData.tugElapsed;
+      document.getElementById('tugDisplay').textContent = (tugElapsed / 1000).toFixed(1);
+    }
+    
+    // Restaurar contadores
+    probCount = formData.probCount || 0;
+    evoCount = formData.evoCount || 0;
+    
+    // Restaurar problemas
+    if(formData.problems && formData.problems.length) {
+      formData.problems.forEach(function(prob){
+        addProblema();
+        var inputs = document.querySelectorAll('#problemList .dyn-input');
+        if(inputs.length) inputs[inputs.length - 1].value = prob;
+      });
+    }
+    
+    // Restaurar medicamentos
+    if(formData.meds && formData.meds.length) {
+      formData.meds.forEach(function(med){
+        addMed();
+        var tr = document.getElementById('medBody').lastChild;
+        if(tr) {
+          var cells = tr.querySelectorAll('input[type="text"]');
+          if(cells[0]) cells[0].value = med.med || '';
+          if(cells[1]) cells[1].value = med.conc || '';
+          if(cells[2]) cells[2].value = med.posol || '';
+          if(cells[3]) cells[3].value = med.dur || '';
+        }
+      });
+    }
+    
+    // Restaurar evoluções
+    if(formData.evos && formData.evos.length) {
+      formData.evos.forEach(function(evo){
+        addEvolucao();
+        var card = document.getElementById('evolucoes').lastChild;
+        if(card) {
+          var dateInput = card.querySelector('input[type="date"]');
+          var textarea = card.querySelector('textarea');
+          if(dateInput) dateInput.value = evo.date || '';
+          if(textarea) textarea.value = evo.text || '';
+          if(evo.created) card.setAttribute('data-created', evo.created);
+          lockIfOld(card);
+        }
+      });
+    }
+    
+    // Restaurar classes ativas
+    Object.keys(formData.activeClasses).forEach(function(id){
+      var el = document.getElementById(id);
+      if(el) el.classList.add('active');
+    });
+    
+    // Recalcular todos os scores
+    setTimeout(function(){
+      if(typeof calcKatz === 'function') calcKatz();
+      if(typeof calcLaw === 'function') calcLaw();
+      if(typeof calcSarc === 'function') calcSarc();
+      if(typeof calcApgar === 'function') calcApgar();
+      if(typeof calcMAN === 'function') calcMAN();
+      if(typeof calcFrail === 'function') calcFrail();
+      if(typeof calcMEEM === 'function') calcMEEM();
+      if(typeof calcGDS === 'function') calcGDS();
+      if(typeof calcVM === 'function') calcVM();
+      if(typeof rebuildGDSUI === 'function') rebuildGDSUI();
+      if(typeof updateProgress === 'function') updateProgress();
+      console.log('[RESTORE] Restauração concluída!');
+    }, 100);
+    
+    showToast('✓ Dados restaurados (' + horasSalvo + ' min atrás)');
+    
+    // Mostrar botão de restaurar
+    var restoreBtn = document.getElementById('restoreBtn');
+    if(restoreBtn) restoreBtn.style.display = 'inline-block';
+    
+    return true;
+  } catch(e) {
+    console.error('[RESTORE] Erro ao restaurar dados:', e.message);
+    return false;
+  }
+}
+
 // ---- IMC ----
 function calcIMC() {
   var h = parseFloat(document.getElementById('altura').value) / 100;
@@ -576,11 +707,22 @@ window.addEventListener('load',function(){
   
   function loadFormData() {
     var saved = localStorage.getItem('fisio-form-data');
-    if(!saved) return false;
+    if(!saved) {
+      console.log('[RESTORE] Nenhum dado salvo encontrado');
+      return false;
+    }
     
+    console.log('[RESTORE] Iniciando restauração...');
     try {
       var formData = JSON.parse(saved);
       var horasSalvo = Math.round((Date.now() - formData.timestamp) / (1000 * 60));
+      
+      // Limpar elementos dinâmicos antes de restaurar
+      document.getElementById('problemList').innerHTML = '';
+      document.getElementById('medBody').innerHTML = '';
+      document.getElementById('evolucoes').innerHTML = '';
+      probCount = 0;
+      evoCount = 0;
       
       // Restaurar inputs
       Object.keys(formData.inputs).forEach(function(key){
@@ -629,7 +771,6 @@ window.addEventListener('load',function(){
       
       // Restaurar medicamentos
       if(formData.meds && formData.meds.length) {
-        document.getElementById('medBody').innerHTML = '';
         formData.meds.forEach(function(med){
           addMed();
           var tr = document.getElementById('medBody').lastChild;
@@ -645,7 +786,6 @@ window.addEventListener('load',function(){
       
       // Restaurar evoluções
       if(formData.evos && formData.evos.length) {
-        document.getElementById('evolucoes').innerHTML = '';
         formData.evos.forEach(function(evo){
           addEvolucao();
           var card = document.getElementById('evolucoes').lastChild;
@@ -668,17 +808,18 @@ window.addEventListener('load',function(){
       
       // Recalcular todos os scores
       setTimeout(function(){
-        calcKatz();
-        calcLaw();
-        calcSarc();
-        calcApgar();
-        calcMAN();
-        calcFrail();
-        calcMEEM();
-        calcGDS();
-        calcVM();
-        rebuildGDSUI();
-        updateProgress();
+        if(typeof calcKatz === 'function') calcKatz();
+        if(typeof calcLaw === 'function') calcLaw();
+        if(typeof calcSarc === 'function') calcSarc();
+        if(typeof calcApgar === 'function') calcApgar();
+        if(typeof calcMAN === 'function') calcMAN();
+        if(typeof calcFrail === 'function') calcFrail();
+        if(typeof calcMEEM === 'function') calcMEEM();
+        if(typeof calcGDS === 'function') calcGDS();
+        if(typeof calcVM === 'function') calcVM();
+        if(typeof rebuildGDSUI === 'function') rebuildGDSUI();
+        if(typeof updateProgress === 'function') updateProgress();
+        console.log('[RESTORE] Restauração concluída!');
       }, 100);
       
       showToast('✓ Dados restaurados (' + horasSalvo + ' min atrás)');
@@ -691,7 +832,7 @@ window.addEventListener('load',function(){
       
       return true;
     } catch(e) {
-      console.error('Erro ao restaurar dados:', e);
+      console.error('[RESTORE] Erro ao restaurar dados:', e.message, e.stack);
       return false;
     }
   }
