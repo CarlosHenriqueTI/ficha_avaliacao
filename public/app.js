@@ -385,8 +385,15 @@ window.addEventListener('scroll',function(){
 
 window.addEventListener('load',function(){
   var dv=document.getElementById('dataAval'); if(dv) dv.valueAsDate=new Date();
-  addMed();addMed();addMed();
-  addProblema();addProblema();addProblema();
+  
+  // Tentar restaurar dados salvos, se não houver, criar padrão
+  var hasSaved = localStorage.getItem('fisio-form-data');
+  if(hasSaved) {
+    loadFormData();
+  } else {
+    addMed();addMed();addMed();
+    addProblema();addProblema();addProblema();
+  }
 });
 
 
@@ -719,16 +726,12 @@ window.addEventListener('load',function(){
     });
   }
   
-  // Verificar dados salvos ao carregar a página
-  window.addEventListener('load', function(){
-    var dv=document.getElementById('dataAval'); if(dv) dv.valueAsDate=new Date();
-    
-    // Tentar restaurar dados salvos
-    if(localStorage.getItem('fisio-form-data')) {
-      var restoreBtn = document.getElementById('restoreBtn');
-      if(restoreBtn) restoreBtn.style.display = 'inline-block';
-    }
-  });
+  
+  // Mostrar botão de restaurar se houver dados salvos
+  if(localStorage.getItem('fisio-form-data')) {
+    var restoreBtn = document.getElementById('restoreBtn');
+    if(restoreBtn) restoreBtn.style.display = 'inline-block';
+  }
   
   // Autosave indicator (simple)
   var badge = document.getElementById('saveBadge');
