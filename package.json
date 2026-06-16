@@ -4,6 +4,7 @@
   "description": "Avaliação Fisioterapêutica - Bruna Costa Silveira",
   "private": true,
   "scripts": {
+    "build": "",
     "dev": "echo 'Open index.html in your browser'"
   },
   "keywords": ["fisioterapia", "avaliacao", "geriatria"],
