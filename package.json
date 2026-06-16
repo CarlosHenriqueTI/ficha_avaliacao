@@ -1,0 +1,11 @@
+{
+  "name": "ficha-avaliacao",
+  "version": "1.0.0",
+  "description": "Avaliação Fisioterapêutica - Bruna Costa Silveira",
+  "private": true,
+  "scripts": {
+    "dev": "echo 'Open index.html in your browser'"
+  },
+  "keywords": ["fisioterapia", "avaliacao", "geriatria"],
+  "author": "Carlos Henrique"
+}
