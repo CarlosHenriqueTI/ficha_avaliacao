@@ -432,6 +432,65 @@ window.addEventListener('load',function(){
   });
   window.addEventListener('load', function(){ setTimeout(updateProgress, 300); });
 
+  // ---- RESET / LIMPAR FICHA ----
+  document.getElementById('resetBtn').addEventListener('click', function(){
+    if(!confirm('Tem certeza que deseja ZERAR todas as informações da ficha? Esta ação não pode ser desfeita!')) return;
+    
+    // Limpar todos os inputs, textareas e selects
+    document.querySelectorAll('input[type="text"], input[type="number"], input[type="date"], input[type="tel"], textarea, select').forEach(function(el){
+      if(!el.readOnly) el.value = '';
+    });
+    
+    // Limpar checkboxes e radio buttons
+    document.querySelectorAll('input[type="checkbox"]').forEach(function(el){ el.checked = false; });
+    
+    // Limpar elementos dinâmicos
+    document.getElementById('problemList').innerHTML = '';
+    document.getElementById('medBody').innerHTML = '';
+    document.getElementById('evolucoes').innerHTML = '';
+    probCount = 0;
+    evoCount = 0;
+    
+    // Remover classes ativas
+    document.querySelectorAll('.radio-btn, .tag-check, .s-btn, .r-btn, .active').forEach(function(el){
+      el.classList.remove('active');
+    });
+    
+    // Limpar scores
+    scoreData = {};
+    document.getElementById('evaVal').textContent = '5';
+    document.getElementById('evaDesc').textContent = 'Dor moderada';
+    document.getElementById('evaHandle').style.left = '50%';
+    document.getElementById('tugDisplay').textContent = '0.0';
+    document.getElementById('tugScore').textContent = '---';
+    document.getElementById('vmScore').textContent = '--- m/s';
+    document.getElementById('katzScore').textContent = '--- / 6';
+    document.getElementById('lawScore').textContent = '--- / 27';
+    document.getElementById('sarcScore').textContent = '--- / 20';
+    document.getElementById('meemScore').textContent = '--- / 39';
+    document.getElementById('gdsScore').textContent = '0 / 15';
+    document.getElementById('manTriagemScore').textContent = '--- / 14';
+    document.getElementById('manTotalScore').textContent = '--- / 30';
+    
+    // Remover imagem se houver
+    if(document.getElementById('imgPreviewWrap')) document.getElementById('imgPreviewWrap').style.display = 'none';
+    
+    // Resetar TUG
+    tugElapsed = 0;
+    tugRunning = false;
+    
+    // Resetar GDS responses
+    gdsResps = {};
+    var gdsList = document.getElementById('gdsList');
+    if(gdsList) gdsList.innerHTML = '';
+    buildGDS();
+    
+    // Atualizar progresso
+    updateProgress();
+    
+    showToast('✓ Ficha zerada com sucesso!');
+  });
+
   // Autosave indicator (simple)
   var badge = document.getElementById('saveBadge');
   var badgeText = document.getElementById('saveBadgeText');
