@@ -1,0 +1,6 @@
+.git
+.gitignore
+README.txt
+DEPLOY.md
+*.log
+node_modules
