@@ -1,381 +1,454 @@
-/* ============================================================
-   Avaliação Fisioterapêutica — App Logic
-   ============================================================ */
+// ---- N/A toggle ----
+function toggleNA(btn, targetId) {
+  var target = document.getElementById(targetId);
+  if(!target) return;
+  var field = btn.closest('.field');
+  var isNA = btn.classList.toggle('active');
+  if(isNA) {
+    btn.textContent = '↩ Desfazer';
+    target.classList.add('scale-na');
+    if(field) field.classList.add('na-active');
+  } else {
+    btn.textContent = '○ Não aplicável';
+    target.classList.remove('scale-na');
+    if(field) field.classList.remove('na-active');
+  }
+}
 
-// ---- TOGGLE HELPERS ----
+// ---- Helpers ----
 function toggleRadio(el, group) {
-  document.querySelectorAll('[onclick*="toggleRadio"][onclick*="\''+group+'\'"]').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('[onclick*="toggleRadio"][onclick*="\''+group+'\'"]').forEach(function(b){b.classList.remove('active');});
   el.classList.add('active');
 }
 function toggleConditional(el, group, id, show) {
-  document.querySelectorAll('[onclick*="toggleConditional"][onclick*="\''+group+'\'"]').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('[onclick*="toggleConditional"][onclick*="\''+group+'\'"]').forEach(function(b){b.classList.remove('active');});
   el.classList.add('active');
   document.getElementById(id).classList.toggle('show', show);
 }
+function showToast(msg) {
+  var t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  setTimeout(function(){ t.classList.remove('show'); }, 2800);
+}
+function scrollTo(id) {
+  var el = document.getElementById(id);
+  if(el) el.scrollIntoView({behavior:'smooth', block:'start'});
+}
 
-// ---- IMC AUTO-CALC ----
-document.addEventListener('input', function(e) {
-  if(e.target.placeholder === 'cm' || e.target.placeholder === 'kg') {
-    var h = parseFloat(document.querySelector('input[placeholder="cm"]').value)/100;
-    var w = parseFloat(document.querySelector('input[placeholder="kg"]').value);
-    if(h > 0 && w > 0) document.getElementById('imc').value = (w/(h*h)).toFixed(1);
-  }
-});
+// ---- IMC ----
+function calcIMC() {
+  var h = parseFloat(document.getElementById('altura').value) / 100;
+  var p = parseFloat(document.getElementById('peso').value);
+  if(h > 0 && p > 0) document.getElementById('imcVal').value = (p/(h*h)).toFixed(1) + ' kg/m²';
+  else document.getElementById('imcVal').value = '';
+}
+
+// ---- Problemas ----
+var probCount = 0;
+function addProblema() {
+  probCount++;
+  var id = 'prob' + probCount;
+  var div = document.createElement('div');
+  div.id = id;
+  div.style.cssText = 'display:flex;gap:6px;align-items:center;margin-bottom:6px';
+  div.innerHTML = '<span style="font-size:12px;font-weight:600;color:var(--text3);min-width:20px">' + probCount + '</span>' +
+    '<input type="text" class="dyn-input" style="flex:1;border:0.5px solid var(--border);border-radius:var(--radius);padding:9px 11px;font-size:14px;color:var(--text);background:var(--bg2);font-family:inherit;outline:none" placeholder="Problema ' + probCount + '">' +
+    '<button class="del-btn" onclick="document.getElementById(\'' + id + '\').remove()">&#x2715;</button>';
+  document.getElementById('problemList').appendChild(div);
+}
+
+// ---- Medicamentos ----
+function addMed() {
+  var tr = document.createElement('tr');
+  tr.innerHTML = '<td><input type="text" class="dyn-input" placeholder="Medicamento"></td>' +
+    '<td><input type="text" class="dyn-input" placeholder="mg/ml"></td>' +
+    '<td><input type="text" class="dyn-input" placeholder="Ex: 1x/dia"></td>' +
+    '<td><input type="text" class="dyn-input" placeholder="Ex: 2a"></td>' +
+    '<td class="del-cell"><button onclick="this.closest(\'tr\').remove()">&#x2715;</button></td>';
+  document.getElementById('medBody').appendChild(tr);
+}
 
 // ---- EVA ----
 var evaActive = false;
-var evaDescs = ['Sem dor','Dor mínima','Dor leve','Dor leve-moderada','Dor moderada-leve','Dor moderada','Dor moderada-intensa','Dor intensa','Dor muito intensa','Dor quase insuportável','Dor máxima'];
+var evaDescs = ['Sem dor','Dor minima','Dor leve','Dor leve-moderada','Dor moderada-leve','Dor moderada','Dor moderada-intensa','Dor intensa','Dor muito intensa','Dor quase insuportavel','Dor maxima'];
 function setEva(x) {
   var bar = document.getElementById('evaBar');
   var rect = bar.getBoundingClientRect();
   var pct = Math.max(0, Math.min(1, (x - rect.left) / rect.width));
   var val = Math.round(pct * 10);
-  document.getElementById('evaHandle').style.left = (pct*100).toFixed(1)+'%';
+  document.getElementById('evaHandle').style.left = (pct * 100).toFixed(1) + '%';
   document.getElementById('evaVal').textContent = val;
   document.getElementById('evaDesc').textContent = evaDescs[val];
 }
 document.getElementById('evaBar').addEventListener('touchstart', function(e){ e.preventDefault(); setEva(e.touches[0].clientX); }, {passive:false});
-document.getElementById('evaBar').addEventListener('touchmove', function(e){ e.preventDefault(); setEva(e.touches[0].clientX); }, {passive:false});
-document.getElementById('evaBar').addEventListener('mousedown', function(e){ evaActive=true; setEva(e.clientX); });
-document.addEventListener('mousemove', function(e){ if(evaActive) setEva(e.clientX); });
-document.addEventListener('mouseup', function(){ evaActive=false; });
+document.getElementById('evaBar').addEventListener('touchmove',  function(e){ e.preventDefault(); setEva(e.touches[0].clientX); }, {passive:false});
+document.getElementById('evaBar').addEventListener('mousedown',  function(e){ evaActive=true; setEva(e.clientX); });
+document.addEventListener('mousemove', function(e){ if(evaActive){ e.preventDefault(); setEva(e.clientX); } });
+document.addEventListener('mouseup',   function(){ evaActive=false; });
 
-// ---- LISTA DE PROBLEMAS ----
-var probCount = 0;
-function addProblema() {
-  probCount++;
-  var div = document.createElement('div');
-  div.style.cssText = 'display:flex;align-items:center;gap:10px;margin-bottom:8px';
-  div.innerHTML = '<span style="font-family:var(--font-display);font-style:italic;font-size:14px;color:var(--accent);min-width:24px;text-align:center">'+probCount+'</span><input type="text" placeholder="Descreva o problema" class="bare"><button class="del-btn" onclick="this.parentElement.remove()" style="flex-shrink:0">✕</button>';
-  document.getElementById('problemas-list').appendChild(div);
-  div.querySelector('input').focus();
-}
-for(var i=0;i<5;i++) addProblema();
-
-// ---- MEDICAMENTOS ----
-function addMed() {
-  var tr = document.createElement('tr');
-  tr.innerHTML = '<td><input type="text" placeholder="Medicamento"></td><td><input type="text" placeholder="Dose"></td><td><input type="text" placeholder="Posologia"></td><td><input type="text" placeholder="Tempo"></td>';
-  document.getElementById('medBody').appendChild(tr);
-}
-
-// ---- EVOLUÇÕES ----
+// ---- Evolucoes ----
 var evoCount = 0;
 function addEvolucao() {
   evoCount++;
-  var id = 'evo'+evoCount;
+  var id = 'evo' + evoCount;
   var today = new Date().toISOString().split('T')[0];
   var div = document.createElement('div');
-  div.className = 'evolucao-card'; div.id = id;
-  div.innerHTML = '<div class="evo-header"><span class="evo-date-label">Data</span><input type="date" value="'+today+'"><button class="del-btn" onclick="document.getElementById(\''+id+'\').remove()" title="Remover">✕</button></div><textarea placeholder="Evolução clínica, conduta aplicada, resultados e intercorrências..."></textarea>';
+  div.className = 'evolucao-card';
+  div.id = id;
+  div.style.marginBottom = '8px';
+  div.setAttribute('data-created', Date.now());
+  div.innerHTML = '<div class="evo-header"><span class="evo-date-label">📅 Data da evolução</span>' +
+    '<input type="date" class="dyn-input" value="' + today + '">' +
+    '<button class="del-btn" onclick="document.getElementById(\'' + id + '\').remove()">&#x2715;</button></div>' +
+    '<textarea class="dyn-ta" placeholder="Escreva a evolução aqui..."></textarea>';
   document.getElementById('evolucoes').appendChild(div);
-  div.querySelector('textarea').focus();
+  lockIfOld(div);
 }
 
-// ---- FRAIL ----
-function calcFrail() {
-  var s = ['fr1','fr2','fr3','fr4','fr5'].filter(function(id){ return document.getElementById(id).checked; }).length;
-  document.getElementById('frailScore').value = s+'/5 — '+(s===0?'Não frágil':s<=2?'Pré-frágil':'Frágil');
-}
-
-// ---- KATZ ----
-var katzData = ['Banhar-se','Vestir-se','Ir ao banheiro','Transferência','Continência','Alimentação'];
-(function(){
-  var c = document.getElementById('katzItems');
-  katzData.forEach(function(n){
-    var d = document.createElement('div'); d.className = 'q-item';
-    d.innerHTML = '<div class="q-text">'+n+'</div><div class="q-opts"><div class="q-opt" onclick="qSel(this,\'katz\')">Independente (1)</div><div class="q-opt" onclick="qSel(this,\'katz\')">Dependente (0)</div></div>';
-    c.appendChild(d);
-  });
-})();
-function qSel(el, group) {
-  el.parentElement.querySelectorAll('.q-opt').forEach(function(o){ o.classList.remove('active'); });
-  el.classList.add('active');
-  if(group==='katz') {
-    var pts = 0;
-    document.querySelectorAll('#katzItems .q-item').forEach(function(item){
-      var a = item.querySelector('.q-opt.active');
-      if(a && a.textContent.includes('1')) pts++;
-    });
-    document.getElementById('katzScore').value = pts+'/6';
-  } else if(group==='pfeffer') { calcPfeffer(); }
-  else if(group==='lawton') { calcLawton(); }
-  else if(group==='sarc') { calcSarc(); }
-  else if(group==='gds') { calcGds(); }
-  else if(group==='apgar') { calcApgar(); }
-  else if(group==='meem') { calcMeem(); }
-}
-
-// ---- PFEFFER ----
-var pfefferQs = [
-  'Cuidar do próprio dinheiro?','Fazer compras sozinho(a)?','Esquentar água e apagar o fogo?',
-  'Preparar comida?','Manter-se a par dos acontecimentos da vizinhança?',
-  'Prestar atenção, entender e discutir TV/rádio/jornal?','Lembrar de compromissos familiares?',
-  'Cuidar dos próprios medicamentos?','Andar pela vizinhança e achar o caminho de volta?',
-  'Cumprimentar amigos adequadamente?','Ficar sozinho(a) em casa sem problemas?'
-];
-(function(){
-  var c = document.getElementById('pfefferItems');
-  pfefferQs.forEach(function(q,i){
-    var d = document.createElement('div'); d.className = 'q-item';
-    d.innerHTML = '<div class="q-text">'+(i+1)+'. '+q+'</div><div class="q-opts"><div class="q-opt" data-val="0" onclick="qSel(this,\'pfeffer\')">Capaz (0)</div><div class="q-opt" data-val="1" onclick="qSel(this,\'pfeffer\')">Dific. (1)</div><div class="q-opt" data-val="2" onclick="qSel(this,\'pfeffer\')">Ajuda (2)</div><div class="q-opt" data-val="3" onclick="qSel(this,\'pfeffer\')">Incapaz (3)</div></div>';
-    c.appendChild(d);
-  });
-})();
-function calcPfeffer() {
-  var pts = 0;
-  document.querySelectorAll('#pfefferItems .q-opt.active').forEach(function(a){ pts += parseInt(a.dataset.val||0); });
-  document.getElementById('pfefferScore').value = pts+'/33';
-}
-
-// ---- LAWTON ----
-var lawtonQs = [
-  'Usar o telefone?','Ir a locais distantes de transporte?','Fazer compras?',
-  'Preparar as próprias refeições?','Arrumar a casa?','Fazer trabalhos manuais domésticos?',
-  'Lavar e passar roupa?','Tomar remédios corretamente?','Cuidar das finanças?'
-];
-(function(){
-  var c = document.getElementById('lawtonItems');
-  lawtonQs.forEach(function(q,i){
-    var d = document.createElement('div'); d.className = 'q-item';
-    d.innerHTML = '<div class="q-text">'+(i+1)+'. '+q+'</div><div class="q-opts"><div class="q-opt" data-val="3" onclick="qSel(this,\'lawton\')">Sem ajuda (3)</div><div class="q-opt" data-val="2" onclick="qSel(this,\'lawton\')">Parcial (2)</div><div class="q-opt" data-val="1" onclick="qSel(this,\'lawton\')">Não (1)</div></div>';
-    c.appendChild(d);
-  });
-})();
-function calcLawton() {
-  var pts = 0;
-  document.querySelectorAll('#lawtonItems .q-opt.active').forEach(function(a){ pts += parseInt(a.dataset.val||0); });
-  document.getElementById('lawtonScore').value = pts+'/27';
+// ---- Bloqueio 7 dias ----
+function lockIfOld(card) {
+  var created = parseInt(card.getAttribute('data-created'));
+  if(!created) return;
+  if((Date.now() - created) / (1000*60*60*24) < 7) return;
+  card.classList.add('locked');
+  var ta = card.querySelector('textarea');
+  if(ta) { ta.readOnly = true; }
+  var di = card.querySelector('input[type=date]');
+  if(di) di.disabled = true;
+  var db = card.querySelector('.del-btn');
+  if(db) db.style.display = 'none';
+  var hdr = card.querySelector('.evo-header');
+  if(hdr && !hdr.querySelector('.evo-lock-badge')) {
+    var b = document.createElement('span');
+    b.className = 'evo-lock-badge';
+    b.textContent = 'Bloqueado';
+    hdr.appendChild(b);
+  }
 }
 
 // ---- TUG ----
-function calcTug() {
-  var t = parseFloat(document.getElementById('tugTime').value);
-  var r = document.getElementById('tugResult');
-  if(!t){ r.innerHTML=''; return; }
-  var msg = t<=10?'Baixo risco de quedas':t<=20?'Independente (baixo risco)':t<=29?'Risco moderado de quedas':'Alto risco de quedas';
-  r.innerHTML = '<div class="score-box"><p>'+t+'s — '+msg+'</p></div>';
+var tugRunning=false, tugStart=0, tugElapsed=0, tugInterval;
+function tugToggle() {
+  if(!tugRunning) {
+    tugStart = Date.now() - tugElapsed;
+    tugInterval = setInterval(function(){
+      tugElapsed = Date.now()-tugStart;
+      document.getElementById('tugDisplay').textContent = (tugElapsed/1000).toFixed(1);
+    },100);
+    tugRunning=true;
+    document.getElementById('tugBtn').textContent='Parar';
+    document.getElementById('tugBtn').style.background='#E24B4A';
+  } else {
+    clearInterval(tugInterval); tugRunning=false;
+    document.getElementById('tugBtn').textContent='Iniciar';
+    document.getElementById('tugBtn').style.background='';
+    document.getElementById('tugManual').value=(tugElapsed/1000).toFixed(1);
+    tugManualUpdate();
+  }
+}
+function tugReset() {
+  clearInterval(tugInterval); tugRunning=false; tugElapsed=0;
+  document.getElementById('tugDisplay').textContent='0.0';
+  document.getElementById('tugBtn').textContent='Iniciar';
+  document.getElementById('tugBtn').style.background='';
+  document.getElementById('tugManual').value='';
+  document.getElementById('tugScore').textContent='---';
+}
+function tugManualUpdate() {
+  var v=parseFloat(document.getElementById('tugManual').value);
+  document.getElementById('tugDisplay').textContent=isNaN(v)?'0.0':v.toFixed(1);
+  if(!isNaN(v)){
+    document.getElementById('tugScore').textContent=v.toFixed(1)+'s';
+    document.getElementById('tugInterp').textContent=
+      v<=10?'Desempenho normal - baixo risco':v<=20?'Normal para idoso fragil':v<=29?'Risco moderado de quedas':'Alto risco de quedas';
+  }
 }
 
-// ---- SARC-F ----
-var sarcQs = [
-  {q:'Dificuldade para levantar e carregar 5 kg?', opts:['Nenhuma (0)','Alguma (1)','Muita/não consigo (2)']},
-  {q:'Dificuldade para atravessar um cômodo?', opts:['Nenhuma (0)','Alguma (1)','Muita/não consigo (2)']},
-  {q:'Dificuldade para levantar da cama/cadeira?', opts:['Nenhuma (0)','Alguma (1)','Muita/não consigo (2)']},
-  {q:'Dificuldade para subir um lance de escadas (10 degraus)?', opts:['Nenhuma (0)','Alguma (1)','Muita/não consigo (2)']},
-  {q:'Quantas vezes caiu no último ano?', opts:['Nenhuma (0)','1 a 3 (1)','4 ou mais (2)']}
-];
-(function(){
-  var c = document.getElementById('sarcfItems');
-  sarcQs.forEach(function(item,i){
-    var d = document.createElement('div'); d.className = 'q-item';
-    var opts = item.opts.map(function(o,j){ return '<div class="q-opt" data-val="'+j+'" onclick="qSel(this,\'sarc\')">'+o+'</div>'; }).join('');
-    d.innerHTML = '<div class="q-text">'+(i+1)+'. '+item.q+'</div><div class="q-opts">'+opts+'</div>';
-    c.appendChild(d);
-  });
-})();
-function calcSarc() {
-  var pts = 0;
-  document.querySelectorAll('#sarcfItems .q-opt.active').forEach(function(a){ pts += parseInt(a.dataset.val||0); });
-  var cc = parseFloat(document.getElementById('sarcCC').value||0);
-  var isFem = document.querySelector('[onclick*="toggleRadio"][onclick*="\'sarcSexo\'"].active');
-  var ccPts = 0;
-  if(cc > 0) {
-    var sfem = isFem && isFem.textContent.includes('Fem');
-    ccPts = (sfem ? cc < 33 : cc < 34) ? 10 : 0;
-  }
-  var total = pts + ccPts;
-  document.getElementById('sarcScore').value = total+'/20'+(total>=11?' — Sarcopenia':'');
+// ---- Velocidade da Marcha ----
+function calcVM() {
+  var t1=parseFloat(document.getElementById('vm1').value);
+  var t2=parseFloat(document.getElementById('vm2').value);
+  var t=Math.min(isNaN(t1)?Infinity:t1, isNaN(t2)?Infinity:t2);
+  if(t===Infinity){document.getElementById('vmScore').textContent='--- m/s';return;}
+  var v=(4/t).toFixed(2);
+  document.getElementById('vmScore').textContent=v+' m/s';
+  document.getElementById('vmInterp').textContent=parseFloat(v)<0.8?'Baixo desempenho (< 0,8 m/s)':'Dentro do esperado (>= 0,8 m/s)';
+}
+
+// ---- Scores genericos ----
+var scoreData={};
+function setScore(key,val,el,calcFn){
+  scoreData[key]=val;
+  el.closest('.scale-opts').querySelectorAll('.s-btn').forEach(function(b){b.classList.remove('active');});
+  el.classList.add('active');
+  if(calcFn) calcFn();
+}
+function setKatz(el,val,key){setScore(key,val,el,calcKatz);}
+function setLaw(el,val,key){setScore(key,val,el,calcLaw);}
+function setSarc(el,val,key){setScore(key,val,el,calcSarc);}
+function setApgar(el,val,key){setScore(key,val,el,calcApgar);}
+function setMAN(el,val,key){setScore(key,val,el,calcMAN);}
+
+function calcKatz(){
+  var keys=['katz-banho','katz-vest','katz-banh','katz-trans','katz-cont','katz-alim'];
+  var t=0,f=0; keys.forEach(function(k){if(scoreData[k]!==undefined){t+=scoreData[k];f++;}});
+  if(!f){document.getElementById('katzScore').textContent='--- / 6';return;}
+  document.getElementById('katzScore').textContent=t+' / 6';
+  document.getElementById('katzInterp').textContent=t>=6?'Independente':t>=4?'Dependencia moderada':'Muito dependente';
+}
+function calcLaw(){
+  var keys=['l1','l2','l3','l4','l5','l6','l7','l8','l9'];
+  var t=0,f=0; keys.forEach(function(k){if(scoreData[k]!==undefined){t+=scoreData[k];f++;}});
+  if(!f){document.getElementById('lawScore').textContent='--- / 27';return;}
+  document.getElementById('lawScore').textContent=t+' / 27';
+  document.getElementById('lawInterp').textContent=t<=9?'Total dependente':t<=15?'Dependencia grave':t<=20?'Dependencia moderada':t<=25?'Dependencia leve':'Independente';
+}
+function calcSarc(){
+  var keys=['sf1','sf2','sf3','sf4','sf5'];
+  var t=0; keys.forEach(function(k){t+=(scoreData[k]||0);});
+  var cc=parseFloat(document.getElementById('sarcCC').value);
+  var sexBtn=document.querySelector('[onclick*="sarcSexo"].active');
+  var isMasc=sexBtn&&sexBtn.textContent.trim()==='Masc.';
+  var ccPts=0; if(!isNaN(cc)){ccPts=cc<(isMasc?34:33)?10:0;}
+  var tot=t+ccPts;
+  document.getElementById('sarcScore').textContent=tot+' / 20';
+  document.getElementById('sarcInterp').textContent=tot>=11?'Sugestivo de sarcopenia':'Sem indicativo de sarcopenia';
+}
+function calcApgar(){
+  var keys=['ap1','ap2','ap3','ap4','ap5'];
+  var t=0,f=0; keys.forEach(function(k){if(scoreData[k]!==undefined){t+=scoreData[k];f++;}});
+  if(!f){document.getElementById('apgarScore').textContent='--- / 10';return;}
+  document.getElementById('apgarScore').textContent=t+' / 10';
+  document.getElementById('apgarInterp').textContent=t<=4?'Elevada disfuncao familiar':t<=6?'Moderada disfuncao familiar':'Boa funcionalidade familiar';
+}
+function calcMAN(){
+  var triag=['ma1','ma2','ma3','ma4','ma5','ma6'];
+  var glob=['mg1','mg2','mg3','mg4','mg5','mg6','mg7','mg8','mg9','mg10','mg11','mg12'];
+  var t=0; triag.forEach(function(k){t+=(scoreData[k]||0);});
+  var g=0; glob.forEach(function(k){g+=(scoreData[k]||0);});
+  var hasT=triag.some(function(k){return scoreData[k]!==undefined;});
+  var hasG=glob.some(function(k){return scoreData[k]!==undefined;});
+  document.getElementById('manTriagemScore').textContent=(hasT?t:'---')+' / 14';
+  var total=t+g;
+  document.getElementById('manTotalScore').textContent=((hasT||hasG)?total.toFixed(1):'---')+' / 30';
+  if(hasT||hasG) document.getElementById('manInterp').textContent=total>=24?'Estado nutricional normal':total>=17?'Sob risco de desnutricao':'Desnutrido';
+}
+function calcFrail(){
+  var n=0; for(var i=1;i<=5;i++) if(document.getElementById('fr'+i).checked) n++;
+  document.getElementById('frailScore').textContent=n+' / 5';
+  document.getElementById('frailInterp').textContent=n===0?'Nao fragil':n<=2?'Pre-fragil':'Fragil';
 }
 
 // ---- MEEM ----
-var meemSecs = [
-  {title:'Orientação temporal e espacial', max:10, id:'meemOri'},
-  {title:'Memória imediata', max:3, id:'meemMem'},
-  {title:'Atenção e cálculo', max:5, id:'meemAtc'},
-  {title:'Evocação', max:3, id:'meemEvo'},
-  {title:'Linguagem', max:9, id:'meemLing'}
-];
-(function(){
-  var c = document.getElementById('meemSections');
-  meemSecs.forEach(function(s){
-    var d = document.createElement('div'); d.className = 'q-item';
-    d.innerHTML = '<div class="q-text">'+s.title+' <span style="color:var(--text-3);font-size:12px">(0–'+s.max+')</span></div><div style="display:flex;align-items:center;gap:10px"><input type="number" min="0" max="'+s.max+'" placeholder="0" id="'+s.id+'" oninput="calcMeem()" style="width:80px;border:1px solid var(--hairline);border-radius:8px;padding:8px 12px;font:inherit;font-size:14px;color:var(--text);background:var(--surface-2);outline:none;font-variant-numeric:tabular-nums"><span style="font-size:13px;color:var(--text-3)">/ '+s.max+'</span></div>';
-    c.appendChild(d);
-  });
-})();
-function calcMeem() {
-  var pts = meemSecs.reduce(function(s,sec){ return s + (parseInt(document.getElementById(sec.id).value)||0); }, 0);
-  document.getElementById('meemScore').value = pts+'/30';
+function setNomear(item,val){
+  var hv=document.getElementById('m_'+item+'_val'); if(hv) hv.value=val;
+  var b0=document.getElementById('btn_'+item+'_0');
+  var b1=document.getElementById('btn_'+item+'_1');
+  if(b0){b0.style.background=val===0?'var(--accent)':'var(--bg3)';b0.style.color=val===0?'#fff':'';}
+  if(b1){b1.style.background=val===1?'var(--accent)':'var(--bg3)';b1.style.color=val===1?'#fff':'';}
+  calcMEEM();
+}
+function calcMEEM(){
+  var ori=0; for(var i=1;i<=10;i++){var cb=document.getElementById('m'+i);if(cb&&cb.checked)ori++;}
+  var mem=parseInt(document.getElementById('meem_mem').value)||0;
+  var atenc=parseInt(document.getElementById('meem_atenc').value)||0;
+  var evoc=parseInt(document.getElementById('meem_evoc').value)||0;
+  var ling=parseInt(document.getElementById('meem_ling').value)||0;
+  var rel=parseInt((document.getElementById('m_relogio_val')||{value:'0'}).value)||0;
+  var can=parseInt((document.getElementById('m_caneta_val')||{value:'0'}).value)||0;
+  var rep=parseInt(document.getElementById('meem_repeticao').value)||0;
+  var cmd=parseInt(document.getElementById('meem_comando3').value)||0;
+  var fec=parseInt(document.getElementById('meem_fechaolhos').value)||0;
+  var fra=parseInt(document.getElementById('meem_frase').value)||0;
+  var des=parseInt(document.getElementById('meem_desenho').value)||0;
+  var total=ori+Math.min(3,mem)+Math.min(5,atenc)+Math.min(3,evoc)+Math.min(9,ling)+rel+can+Math.min(1,rep)+Math.min(3,cmd)+Math.min(1,fec)+Math.min(1,fra)+Math.min(1,des);
+  document.getElementById('meemScore').textContent=total+' / 39';
 }
 
 // ---- GDS ----
-var gdsQs = [
-  {q:'Está satisfeito(a) com sua vida?', sim:0, nao:1},
-  {q:'Diminuiu a maior parte de suas atividades e interesses?', sim:1, nao:0},
-  {q:'Sente que a vida está vazia?', sim:1, nao:0},
-  {q:'Aborrece-se com frequência?', sim:1, nao:0},
-  {q:'Sente-se de bem com a vida na maior parte do tempo?', sim:0, nao:1},
-  {q:'Teme que algo ruim possa lhe acontecer?', sim:1, nao:0},
-  {q:'Sente-se feliz a maior parte do tempo?', sim:0, nao:1},
-  {q:'Sente-se frequentemente desamparado(a)?', sim:1, nao:0},
-  {q:'Prefere ficar em casa a sair e fazer coisas novas?', sim:1, nao:0},
-  {q:'Acha que tem mais problemas de memória que a maioria?', sim:1, nao:0},
-  {q:'Acha que é maravilhoso estar vivo(a) agora?', sim:0, nao:1},
-  {q:'Vale a pena viver como vive agora?', sim:0, nao:1},
-  {q:'Sente-se cheio(a) de energia?', sim:0, nao:1},
-  {q:'Acha que sua situação tem solução?', sim:0, nao:1},
-  {q:'Acha que tem muita gente em situação melhor?', sim:1, nao:0}
+var gdsPerguntas=[
+  {q:'Esta satisfeito(a) com sua vida?',simPts:0},
+  {q:'Diminuiu a maior parte de suas atividades e interesses?',simPts:1},
+  {q:'Sente que a vida esta vazia?',simPts:1},
+  {q:'Aborrece-se com frequencia?',simPts:1},
+  {q:'Sente-se de bem com a vida na maior parte do tempo?',simPts:0},
+  {q:'Teme que algo ruim possa lhe acontecer?',simPts:1},
+  {q:'Sente-se feliz a maior parte do tempo?',simPts:0},
+  {q:'Sente-se frequentemente desamparado(a)?',simPts:1},
+  {q:'Prefere ficar em casa a sair e fazer coisas novas?',simPts:1},
+  {q:'Acha que tem mais problemas de memoria que a maioria?',simPts:1},
+  {q:'Acha que e maravilhoso estar vivo agora?',simPts:0},
+  {q:'Vale a pena viver como vive agora?',simPts:0},
+  {q:'Sente-se cheio(a) de energia?',simPts:0},
+  {q:'Acha que sua situacao tem solucao?',simPts:0},
+  {q:'Acha que tem muita gente em situacao melhor?',simPts:1}
 ];
-(function(){
-  var c = document.getElementById('gdsItems');
-  gdsQs.forEach(function(item,i){
-    var d = document.createElement('div'); d.className = 'q-item';
-    d.innerHTML = '<div class="q-text">'+(i+1)+'. '+item.q+'</div><div class="q-opts"><div class="q-opt" data-val="'+item.sim+'" onclick="qSel(this,\'gds\')">Sim ('+item.sim+')</div><div class="q-opt" data-val="'+item.nao+'" onclick="qSel(this,\'gds\')">Não ('+item.nao+')</div></div>';
-    c.appendChild(d);
+var gdsResps={};
+(function buildGDS(){
+  var list=document.getElementById('gdsList');
+  if(!list) return;
+  gdsPerguntas.forEach(function(item,idx){
+    var div=document.createElement('div');
+    div.className='scale-item';
+    div.innerHTML='<span class="s-label" style="font-size:12px">'+(idx+1)+'. '+item.q+'</span>'+
+      '<div class="scale-opts">'+
+        '<div class="s-btn" style="font-size:11px" onclick="setGDS(this,'+idx+','+item.simPts+')">'+(item.simPts===1?'Sim (1)':'Sim (0)')+'</div>'+
+        '<div class="s-btn" style="font-size:11px" onclick="setGDS(this,'+idx+','+(item.simPts===1?0:1)+')">'+(item.simPts===1?'Nao (0)':'Nao (1)')+'</div>'+
+      '</div>';
+    list.appendChild(div);
   });
 })();
-function calcGds() {
-  var pts = 0;
-  document.querySelectorAll('#gdsItems .q-opt.active').forEach(function(a){ pts += parseInt(a.dataset.val||0); });
-  var cls = pts<=5?'Normal':pts<=10?'Depressão leve':'Depressão severa';
-  document.getElementById('gdsScore').value = pts+'/15 — '+cls;
+function setGDS(el,idx,val){
+  gdsResps[idx]=val;
+  el.closest('.scale-opts').querySelectorAll('.s-btn').forEach(function(b){b.classList.remove('active');});
+  el.classList.add('active');
+  calcGDS();
 }
-
-// ---- APGAR FAMÍLIA ----
-var apgarQs = [
-  'Posso recorrer à minha família quando algo me incomoda ou preocupa?',
-  'Estou satisfeito(a) com a maneira como conversamos e compartilhamos problemas?',
-  'Minha família aceita e apoia meus desejos de buscar novas atividades?',
-  'Minha família demonstra afeição e reage às minhas emoções?',
-  'Compartilhamos bem o tempo juntos?'
-];
-(function(){
-  var c = document.getElementById('apgarItems');
-  apgarQs.forEach(function(q,i){
-    var d = document.createElement('div'); d.className = 'q-item';
-    d.innerHTML = '<div class="q-text">'+(i+1)+'. '+q+'</div><div class="q-opts"><div class="q-opt" data-val="2" onclick="qSel(this,\'apgar\')">Sempre (2)</div><div class="q-opt" data-val="1" onclick="qSel(this,\'apgar\')">Às vezes (1)</div><div class="q-opt" data-val="0" onclick="qSel(this,\'apgar\')">Nunca (0)</div></div>';
-    c.appendChild(d);
+function calcGDS(){
+  var total=0; Object.values(gdsResps).forEach(function(v){total+=v;});
+  document.getElementById('gdsScore').textContent=total+' / 15';
+  document.getElementById('gdsInterp').textContent=total<=5?'Normal':total<=10?'Indicativo de depressao leve':'Indicativo de depressao severa';
+}
+function rebuildGDSUI(){
+  Object.keys(gdsResps).forEach(function(idx){
+    var val=gdsResps[idx];
+    var items=document.querySelectorAll('#gdsList .scale-item');
+    var item=items[parseInt(idx)]; if(!item) return;
+    item.querySelectorAll('.s-btn').forEach(function(b){
+      var m=b.textContent.match(/\(([01])\)/);
+      if(m&&parseInt(m[1])===val) b.classList.add('active');
+    });
   });
-})();
-function calcApgar() {
-  var pts = 0;
-  document.querySelectorAll('#apgarItems .q-opt.active').forEach(function(a){ pts += parseInt(a.dataset.val||0); });
-  var cls = pts<=4?'Elevada disfunção':pts<=6?'Moderada disfunção':'Boa funcionalidade';
-  document.getElementById('apgarScore').value = pts+'/10 — '+cls;
 }
 
-// ---- SALVAR ----
-function salvar() {
-  try {
-    var data = {};
-    document.querySelectorAll('input,textarea,select').forEach(function(el,i){ data['f'+i] = el.value; });
-    localStorage.setItem('fisioAvalGeri', JSON.stringify(data));
-    showToast('✓ Avaliação salva com sucesso');
-    updateSavedAt(new Date());
-  } catch(e) { showToast('⚠ Não foi possível salvar'); }
+// ---- Imagem ----
+function loadImage(input){
+  if(input.files&&input.files[0]){
+    var reader=new FileReader();
+    reader.onload=function(e){
+      document.getElementById('imgPreview').src=e.target.result;
+      document.getElementById('imgPreviewWrap').style.display='block';
+      document.getElementById('imgDropArea').style.display='none';
+    };
+    reader.readAsDataURL(input.files[0]);
+  }
 }
-function showToast(msg) {
-  var t = document.getElementById('toast');
-  t.textContent = msg; t.classList.add('show');
-  setTimeout(function(){ t.classList.remove('show'); }, 2600);
+function removeImage(){
+  document.getElementById('imgPreview').src='';
+  document.getElementById('imgPreviewWrap').style.display='none';
+  document.getElementById('imgDropArea').style.display='block';
+  document.getElementById('imgInput').value='';
 }
 
-// ---- AUTOSAVE (debounced) ----
-var autosaveT;
-document.addEventListener('input', function(){
-  clearTimeout(autosaveT);
-  autosaveT = setTimeout(function(){
-    try {
-      var data = {};
-      document.querySelectorAll('input,textarea,select').forEach(function(el,i){ data['f'+i] = el.value; });
-      localStorage.setItem('fisioAvalGeri', JSON.stringify(data));
-      updateSavedAt(new Date());
-      updateProgress();
-    } catch(e) {}
-  }, 800);
+// ===== PATIENT MANAGER =====
+var _pmTimer=null;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// ---- Imprimir evoluções ----
+function printEvo(){
+  document.body.classList.add('print-evo-only');
+  window.print();
+  setTimeout(function(){ document.body.classList.remove('print-evo-only'); }, 1000);
+}
+
+// ---- Nav scroll ----
+window.addEventListener('scroll',function(){
+  var pills=document.querySelectorAll('.sec-pill');
+  var ids=[];
+  pills.forEach(function(p){var m=p.getAttribute('onclick').match(/'([^']+)'/);if(m)ids.push(m[1]);});
+  var cur=0;
+  ids.forEach(function(id,i){var el=document.getElementById(id);if(el&&el.getBoundingClientRect().top<120)cur=i;});
+  pills.forEach(function(p,i){p.classList.toggle('active',i===cur);});
 });
 
-function updateSavedAt(d) {
-  var s = document.getElementById('savedAt');
-  if(!s) return;
-  var hh = String(d.getHours()).padStart(2,'0');
-  var mm = String(d.getMinutes()).padStart(2,'0');
-  s.innerHTML = '<span class="dot"></span>Salvo às ' + hh + ':' + mm;
-}
+window.addEventListener('load',function(){
+  var dv=document.getElementById('dataAval'); if(dv) dv.valueAsDate=new Date();
+  addMed();addMed();addMed();
+  addProblema();addProblema();addProblema();
+});
 
-// ---- PROGRESS ----
-function updateProgress(){
-  var els = document.querySelectorAll('.card input, .card textarea, .card select');
-  var filled = 0, total = 0;
-  els.forEach(function(el){
-    if(el.type === 'button' || el.readOnly) return;
-    total++;
-    if((el.type === 'checkbox' && el.checked) || (el.type !== 'checkbox' && el.value && el.value.trim() !== '')) filled++;
-  });
-  // also count active radio pills as groups
-  var pct = total ? Math.round((filled/total)*100) : 0;
-  var f = document.getElementById('progressFill');
-  if(f) f.style.width = pct + '%';
-}
 
-// ---- THEME TOGGLE ----
-function toggleTheme() {
-  var cur = document.documentElement.getAttribute('data-theme');
-  var next;
-  if(cur === 'dark') next = 'light';
-  else if(cur === 'light') next = 'dark';
-  else {
-    // initial: flip relative to system
-    var sysDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    next = sysDark ? 'light' : 'dark';
+/* ===== Enhancements: Progress · Dark mode · Autosave ===== */
+(function(){
+  // Theme toggle (persisted)
+  var saved = localStorage.getItem('fisio-theme');
+  if(saved) document.documentElement.setAttribute('data-theme', saved);
+  document.documentElement.classList.toggle('dark', (saved||'')==='dark');
+  var tBtn = document.getElementById('themeToggle');
+  if(tBtn){
+    tBtn.addEventListener('click', function(){
+      var cur = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', cur);
+      document.documentElement.classList.toggle('dark', cur==='dark');
+      localStorage.setItem('fisio-theme', cur);
+    });
   }
-  document.documentElement.setAttribute('data-theme', next);
-  try { localStorage.setItem('fisioAvalTheme', next); } catch(e) {}
-}
-(function initTheme(){
-  try {
-    var t = localStorage.getItem('fisioAvalTheme');
-    if(t) document.documentElement.setAttribute('data-theme', t);
-  } catch(e) {}
-})();
 
-// ---- SCROLL SPY ----
-window.addEventListener('load', function(){
-  var sections = document.querySelectorAll('.card[id]');
-  var links = document.querySelectorAll('.toc a');
-  if(!sections.length || !links.length) return;
-  var io = new IntersectionObserver(function(entries){
-    entries.forEach(function(e){
-      if(e.isIntersecting){
-        links.forEach(function(l){ l.classList.toggle('active', l.getAttribute('href') === '#'+e.target.id); });
+  // Progress bar
+  function updateProgress(){
+    var inputs = document.querySelectorAll('.card input, .card textarea, .card select');
+    var filled = 0, total = 0;
+    inputs.forEach(function(i){
+      if(i.type==='hidden' || i.readOnly) return;
+      total++;
+      if(i.type==='checkbox' || i.type==='radio'){
+        if(i.checked) filled++;
+      } else if((i.value||'').toString().trim().length){
+        filled++;
       }
     });
-  }, { rootMargin: '-30% 0px -60% 0px' });
-  sections.forEach(function(s){ io.observe(s); });
-});
+    var actives = document.querySelectorAll('.card .radio-btn.active, .card .tag-check.active, .card .s-btn.active, .card .r-btn.active').length;
+    total += 8;
+    filled += Math.min(actives, 20);
+    var pct = total>0 ? Math.min(100, Math.round((filled/total)*100)) : 0;
+    var el = document.getElementById('progressFill');
+    if(el) el.style.width = pct + '%';
+  }
+  document.addEventListener('input', updateProgress);
+  document.addEventListener('click', function(e){
+    if(e.target.closest('.radio-btn,.tag-check,.s-btn,.r-btn,.checkbox-item')) setTimeout(updateProgress,50);
+  });
+  window.addEventListener('load', function(){ setTimeout(updateProgress, 300); });
 
-// ---- IN-VIEW FADE ----
-window.addEventListener('load', function(){
-  var io = new IntersectionObserver(function(entries){
-    entries.forEach(function(e){
-      if(e.isIntersecting){ e.target.classList.add('in-view'); io.unobserve(e.target); }
-    });
-  }, { rootMargin: '0px 0px -10% 0px', threshold: 0.05 });
-  document.querySelectorAll('.card').forEach(function(c){ io.observe(c); });
-});
-
-// ---- LOAD SAVED ----
-window.addEventListener('load', function() {
-  try {
-    var saved = localStorage.getItem('fisioAvalGeri');
-    if(saved) {
-      var data = JSON.parse(saved);
-      document.querySelectorAll('input,textarea,select').forEach(function(el,i){ if(data['f'+i]!==undefined) el.value=data['f'+i]; });
-    }
-  } catch(e) {}
-  // default date
-  var d = document.getElementById('dataAval');
-  if(d && !d.value) d.value = new Date().toISOString().split('T')[0];
-  updateProgress();
-});
+  // Autosave indicator (simple)
+  var badge = document.getElementById('saveBadge');
+  var badgeText = document.getElementById('saveBadgeText');
+  var saveT;
+  function flashSaved(){
+    if(!badge) return;
+    var now = new Date();
+    var hh = String(now.getHours()).padStart(2,'0');
+    var mm = String(now.getMinutes()).padStart(2,'0');
+    if(badgeText) badgeText.textContent = 'Salvo às ' + hh + ':' + mm;
+    badge.classList.add('show');
+    clearTimeout(saveT);
+    saveT = setTimeout(function(){ badge.classList.remove('show'); }, 2200);
+  }
+  var debT;
+  document.addEventListener('input', function(){
+    clearTimeout(debT);
+    debT = setTimeout(flashSaved, 800);
+  });
+})();

@@ -1,20 +1,24 @@
-Avaliação Fisioterapêutica
-==========================
+AVALIAÇÃO FISIOTERAPÊUTICA GERONTOLÓGICA — Versão Editorial Clínica
+====================================================================
 
-Para usar, abra o arquivo `index.html` com duplo-clique no seu navegador
-preferido (Chrome, Safari, Firefox, Edge).
+Como abrir:
+  Basta dar duplo-clique em "index.html" — abre em qualquer navegador moderno
+  (Chrome, Edge, Firefox, Safari). Não requer servidor nem internet
+  (exceto para carregar as fontes Google na primeira abertura).
 
-Conteúdo:
-  index.html  -> marcação semântica (português)
-  styles.css  -> design system (claro/escuro)
-  app.js      -> lógica (EVA, escalas, autosave, etc.)
+Arquivos:
+  index.html   → marcação da ficha
+  styles.css   → design system (cores, tipografia, modo escuro, impressão)
+  app.js       → toda a lógica (EVA, escalas, evoluções, IMC, TUG, etc.)
 
 Recursos:
-  • Tema claro/escuro com botão no topo (respeita o sistema por padrão).
-  • Autosave a cada digitação no localStorage do navegador.
-  • Indicador "Salvo às HH:MM" no canto superior direito.
-  • Barra de progresso de preenchimento.
-  • Índice lateral com scroll-spy em telas grandes (≥1024px).
-  • Layout otimizado para impressão / exportar em PDF.
+  • Tipografia Fraunces + Inter
+  • Tema claro/escuro com botão no canto superior direito
+  • Barra de progresso de preenchimento no topo
+  • Indicador "Salvo às HH:MM" (canto inferior direito)
+  • Cálculo automático: IMC, Katz, Lawton, TUG, Velocidade da Marcha,
+    SARC-F, MEEM, GDS, MAN
+  • Bloqueio automático de evoluções após 7 dias
+  • Imprimir/Exportar PDF preserva todas as cores
 
-Bruna Costa Silveira — CREFITO 393748-F
+Para imprimir só as evoluções diárias, use o botão dedicado acima da seção.

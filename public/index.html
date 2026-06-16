@@ -2,294 +2,259 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Avaliação Fisioterapêutica · Bruna Costa Silveira</title>
-<meta name="description" content="Ficha de avaliação fisioterapêutica geriátrica completa, com escalas e testes especiais.">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="theme-color" content="#3C3489">
+<meta name="description" content="Ficha de Avaliação Fisioterapêutica Gerontológica Abreviada — design moderno, responsivo e pronto para impressão.">
+<title>Avaliação Fisioterapêutica Gerontológica</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;1,9..144,400;1,9..144,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+<div class="doc">
 
-<!-- ============ TOPBAR ============ -->
-<header class="topbar">
-  <div class="topbar-inner">
-    <div class="brand">
-      <div class="brand-mark">Bs</div>
-      <div class="brand-text">
-        <div class="name">Bruna Costa Silveira</div>
-        <div class="meta">CREFITO 393748-F · Fisioterapia</div>
-      </div>
+  <header class="header">
+    <div class="header-actions no-print">
+      <button class="icon-btn" id="themeToggle" title="Alternar tema" aria-label="Alternar tema">◐</button>
     </div>
-    <div class="top-actions">
-      <span id="savedAt" class="save-indicator"></span>
-      <button class="icon-btn" onclick="toggleTheme()" aria-label="Alternar tema" title="Alternar tema">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
-      </button>
-      <button class="icon-btn" onclick="window.print()" aria-label="Imprimir" title="Imprimir / PDF">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
-      </button>
+    <span class="eyebrow">⚕ Ficha Clínica</span>
+    <h1>Avaliação Fisioterapêutica <em>Gerontológica</em></h1>
+    <div class="pro">
+      <b>Bruna Costa Silveira</b>
+      <span class="dot"></span>
+      <span>CREFITO 393748-F</span>
     </div>
-  </div>
-  <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
-</header>
+  </header>
+  <div class="progress no-print"><div class="progress-fill" id="progressFill"></div></div>
 
-<!-- ============ HERO ============ -->
-<section class="hero">
-  <div class="eyebrow">Prontuário · Atendimento geriátrico</div>
-  <h1>Avaliação <em>fisioterapêutica</em></h1>
-  <p>Anamnese, exame físico, escalas e plano terapêutico — em um único documento, salvo automaticamente.</p>
-
-  <div class="hero-row">
-    <label class="date-pill">
-      <label for="dataAval">Data da avaliação</label>
-      <input type="date" id="dataAval">
-    </label>
-    <div></div>
-  </div>
-</section>
-
-<!-- ============ LAYOUT ============ -->
-<div class="layout">
-
-  <!-- TOC desktop -->
-  <nav class="toc" aria-label="Índice">
-    <a href="#sec-1">Identificação</a>
-    <a href="#sec-prob">Lista de problemas</a>
-    <a href="#sec-2">Avaliação</a>
-    <a href="#sec-hab">Hábitos e cirurgias</a>
-    <a href="#sec-med">Medicamentos</a>
-    <a href="#sec-rev">Revisão de sistemas</a>
-    <a href="#sec-quedas">Quedas</a>
-    <a href="#sec-3">Exame clínico</a>
-    <a href="#sec-4">Plano terapêutico</a>
-    <a href="#sec-evo">Evoluções</a>
-    <a href="#sec-hip">Hipóteses e condutas</a>
-    <a href="#sec-esc">Escalas e testes</a>
-    <a href="#sec-final">Avaliação final</a>
-    <a href="#sec-sig">Assinatura</a>
+  <nav class="sec-nav" id="secNav">
+    <div class="sec-pill active" onclick="scrollTo('sec-dados')">Dados</div>
+    <div class="sec-pill" onclick="scrollTo('sec-problemas')">Problemas</div>
+    <div class="sec-pill" onclick="scrollTo('sec-medic')">Medicamentos</div>
+    <div class="sec-pill" onclick="scrollTo('sec-quedas')">Quedas</div>
+    <div class="sec-pill" onclick="scrollTo('sec-exame')">Exame</div>
+    <div class="sec-pill" onclick="scrollTo('sec-fisio')">Fisioterapia</div>
+    <div class="sec-pill" onclick="scrollTo('sec-evolucoes')">Evoluções</div>
+    <div class="sec-pill" onclick="scrollTo('sec-escalas')">Escalas</div>
   </nav>
 
-  <main class="doc">
+  <!-- DATA -->
+  <div class="date-row">
+    <label>📅 Data</label>
+    <input type="date" id="dataAval">
+    <div style="width:1px;height:20px;background:var(--border)"></div>
+    <label style="white-space:nowrap">Prontuário</label>
+    <input type="text" placeholder="Nº" style="max-width:80px;border:none;background:transparent;font-size:14px;color:var(--text);outline:none;font-family:inherit">
+  </div>
 
-  <!-- 1. IDENTIFICAÇÃO -->
-  <section class="card" id="sec-1">
-    <div class="card-header"><span class="num">01</span><span class="title">Identificação</span></div>
+  <!-- ====== DADOS GERAIS ====== -->
+  <div class="card" id="sec-dados">
+    <div class="card-header"><span>1. Dados Gerais</span></div>
     <div class="card-body">
       <div class="field"><label>Nome completo</label><input type="text" placeholder="Nome do paciente"></div>
       <div class="row2">
         <div class="field"><label>Data de nascimento</label><input type="date"></div>
-        <div class="field"><label>Idade</label><input type="number" placeholder="anos"></div>
-      </div>
-      <div class="field"><label>Sexo</label>
-        <div class="radio-inline">
-          <div class="radio-btn" onclick="toggleRadio(this,'sexo')">Masc.</div>
-          <div class="radio-btn" onclick="toggleRadio(this,'sexo')">Fem.</div>
-          <div class="radio-btn" onclick="toggleRadio(this,'sexo')">Outro</div>
-        </div>
-      </div>
-      <div class="field"><label>Telefone</label><input type="tel" placeholder="(00) 00000-0000"></div>
-      <div class="row2">
-        <div class="field"><label>Cidade</label><input type="text" placeholder="Cidade"></div>
-        <div class="field"><label>Bairro</label><input type="text" placeholder="Bairro"></div>
+        <div class="field"><label>Idade</label><input type="number" placeholder="anos" min="0" max="130"></div>
       </div>
       <div class="row2">
-        <div class="field"><label>Escolaridade (anos)</label><input type="number" placeholder="anos"></div>
         <div class="field"><label>Estado civil</label>
           <select>
             <option value="">Selecione</option>
-            <option>Solteiro(a)</option><option>Casado(a)</option>
-            <option>Divorciado(a)</option><option>Viúvo(a)</option><option>União estável</option>
+            <option>Solteiro(a)</option>
+            <option>Casado(a)</option>
+            <option>Divorciado(a)</option>
+            <option>Viúvo(a)</option>
+            <option>União estável</option>
           </select>
         </div>
+        <div class="field"><label>Escolaridade (anos)</label><input type="number" placeholder="anos" min="0"></div>
       </div>
       <div class="row2">
         <div class="field"><label>Profissão</label><input type="text" placeholder="Profissão"></div>
-        <div class="field"><label>Ocupação atual</label><input type="text" placeholder="Ocupação"></div>
+        <div class="field"><label>Ocupação</label><input type="text" placeholder="Ocupação atual"></div>
       </div>
-      <div class="field"><label>Nº Prontuário</label><input type="text" placeholder="Número do prontuário"></div>
-      <div class="field"><label>Endereço residencial</label><input type="text" placeholder="Rua, número, complemento"></div>
-      <div class="row2">
-        <div class="field"><label>Naturalidade</label><input type="text" placeholder="Cidade natal"></div>
-        <div class="field"><label>Endereço comercial</label><input type="text" placeholder="Endereço comercial"></div>
-      </div>
-      <div class="field"><label>Nome do acompanhante e relação</label><input type="text" placeholder="Nome e parentesco"></div>
-      <div class="field"><label>Familiares referência — Nome 1</label>
+      <div class="field"><label>Telefone</label><input type="tel" placeholder="(00) 00000-0000"></div>
+      <div class="field"><label>Acompanhante e relação</label><input type="text" placeholder="Ex.: Maria (filha)"></div>
+      <div class="field"><label>Familiar referência 1</label>
         <div class="row2">
           <input type="text" placeholder="Nome">
           <input type="tel" placeholder="Telefone">
         </div>
       </div>
-      <div class="field"><label>Familiares referência — Nome 2</label>
+      <div class="field"><label>Familiar referência 2</label>
         <div class="row2">
           <input type="text" placeholder="Nome">
           <input type="tel" placeholder="Telefone">
         </div>
       </div>
-      <div class="field"><label>Condições de moradia / familiares no lar</label><textarea placeholder="Descreva com quem reside e condições de moradia"></textarea></div>
-      <div class="field"><label>Seguimentos médicos com acompanhamento</label><textarea placeholder="Especialidades médicas que acompanha"></textarea></div>
-      <div class="field"><label>Diagnóstico clínico</label><textarea placeholder="Diagnóstico clínico fornecido pelo médico"></textarea></div>
-      <div class="field"><label>Diagnóstico fisioterapêutico</label><textarea placeholder="Diagnóstico estabelecido pelo fisioterapeuta"></textarea></div>
+      <div class="field"><label>Seguimentos médicos</label><textarea placeholder="Especialidades e serviços em que realiza acompanhamento"></textarea></div>
     </div>
-  </section>
+  </div>
 
-  <!-- LISTA DE PROBLEMAS -->
-  <section class="card" id="sec-prob">
-    <div class="card-header"><span class="num">·</span><span class="title">Lista de problemas</span></div>
+  <!-- ====== LISTA DE PROBLEMAS ====== -->
+  <div class="card" id="sec-problemas">
+    <div class="card-header"><span>2. Lista de Problemas</span></div>
     <div class="card-body">
-      <div id="problemas-list"></div>
+      <div id="problemList"></div>
       <button class="add-btn" onclick="addProblema()">＋ Adicionar problema</button>
-    </div>
-  </section>
-
-  <!-- 2. AVALIAÇÃO -->
-  <section class="card" id="sec-2">
-    <div class="card-header"><span class="num">02</span><span class="title">Avaliação</span></div>
-    <div class="card-body">
-      <div class="field"><label>2.1 — História clínica</label><textarea placeholder="Relato da história clínica do paciente"></textarea></div>
-      <div class="field"><label>2.2 — Queixa principal (QP) e HDA</label>
-        <p class="hint">Decálogo da dor: duração, início/evolução, localização, irradiação, intensidade, qualidade, sinais/sintomas concomitantes, fatores desencadeantes, agravantes/alívio, repercussão, tratamentos realizados</p>
-        <textarea style="min-height:110px" placeholder="Queixa principal e história da doença atual"></textarea>
-      </div>
-      <div class="field"><label>2.3 — Hábitos de vida</label><textarea placeholder="Atividade física, alimentação, sono..."></textarea></div>
-      <div class="field"><label>2.4 — HMA (história da moléstia atual)</label><textarea placeholder="Histórico da condição atual"></textarea></div>
-      <div class="field"><label>2.5 — HMP (história da moléstia pregressa)</label><textarea placeholder="Doenças ou condições anteriores relevantes"></textarea></div>
-      <div class="field"><label>2.6 — Antecedentes pessoais</label><textarea placeholder="Internações, traumas, doenças crônicas..."></textarea></div>
-      <div class="field"><label>2.7 — Antecedentes familiares</label>
-        <div class="avf-grid">
-          <div class="avf-item"><input type="checkbox" id="af1"><label for="af1">HAS</label></div>
-          <div class="avf-item"><input type="checkbox" id="af2"><label for="af2">Osteoporose / fratura</label></div>
-          <div class="avf-item"><input type="checkbox" id="af3"><label for="af3">DM</label></div>
-          <div class="avf-item"><input type="checkbox" id="af4"><label for="af4">Tireoidopatias</label></div>
-          <div class="avf-item"><input type="checkbox" id="af5"><label for="af5">Dislipidemia</label></div>
-          <div class="avf-item"><input type="checkbox" id="af6"><label for="af6">Doença pulmonar</label></div>
-          <div class="avf-item"><input type="checkbox" id="af7"><label for="af7">AVC</label></div>
-          <div class="avf-item"><input type="checkbox" id="af8"><label for="af8">Neoplasias</label></div>
-          <div class="avf-item"><input type="checkbox" id="af9"><label for="af9">IAM</label></div>
-          <div class="avf-item"><input type="checkbox" id="af10"><label for="af10">Gestações</label></div>
-        </div>
-        <div class="field" style="margin-top:10px"><input type="text" placeholder="Neoplasias: quais / quem? Gestações: PC / PN / A"></div>
-        <textarea style="margin-top:8px;min-height:60px" placeholder="Outras observações sobre antecedentes familiares"></textarea>
-      </div>
-      <div class="field"><label>2.8 — Tratamentos realizados</label><textarea placeholder="Tratamentos anteriores realizados pelo paciente"></textarea></div>
-    </div>
-  </section>
-
-  <!-- HÁBITOS -->
-  <section class="card" id="sec-hab">
-    <div class="card-header"><span class="num">·</span><span class="title">Hábitos e cirurgias</span></div>
-    <div class="card-body">
-      <div class="field">
+      <div class="field" style="margin-top:4px">
         <label>Tabagismo</label>
         <div class="radio-inline">
-          <div class="radio-btn" onclick="toggleConditional(this,'tab','tab-g',true)">Sim</div>
-          <div class="radio-btn" onclick="toggleConditional(this,'tab','tab-g',false)">Não</div>
+          <div class="radio-btn" onclick="toggleConditional(this,'tabag','tabag-det',true)">Sim</div>
+          <div class="radio-btn" onclick="toggleConditional(this,'tabag','tabag-det',false)">Não</div>
         </div>
-        <div class="conditional" id="tab-g"><input type="text" placeholder="Carga tabágica (maços/ano)"></div>
+        <div class="conditional" id="tabag-det">
+          <div class="field" style="margin-top:6px"><input type="text" placeholder="Carga tabágica (maços-ano)"></div>
+        </div>
       </div>
       <div class="field">
         <label>Etilismo</label>
         <div class="radio-inline">
-          <div class="radio-btn" onclick="toggleConditional(this,'eti','eti-g',true)">Sim</div>
-          <div class="radio-btn" onclick="toggleConditional(this,'eti','eti-g',false)">Não</div>
+          <div class="radio-btn" onclick="toggleConditional(this,'etil','etil-det',true)">Sim</div>
+          <div class="radio-btn" onclick="toggleConditional(this,'etil','etil-det',false)">Não</div>
         </div>
-        <div class="conditional" id="eti-g">
-          <div class="row2"><input type="text" placeholder="O quê?"><input type="text" placeholder="Quantas ml?"></div>
+        <div class="conditional" id="etil-det">
+          <div class="row2" style="margin-top:6px">
+            <div class="field"><input type="text" placeholder="O quê?"></div>
+            <div class="field"><input type="text" placeholder="Quantidade (ml)"></div>
+          </div>
         </div>
       </div>
       <div class="field">
         <label>Cirurgias prévias</label>
         <div class="radio-inline">
-          <div class="radio-btn" onclick="toggleConditional(this,'cir','cir-g',true)">Sim</div>
-          <div class="radio-btn" onclick="toggleConditional(this,'cir','cir-g',false)">Não</div>
+          <div class="radio-btn" onclick="toggleConditional(this,'cir','cir-det',true)">Sim</div>
+          <div class="radio-btn" onclick="toggleConditional(this,'cir','cir-det',false)">Não</div>
         </div>
-        <div class="conditional" id="cir-g">
-          <div class="row2"><input type="text" placeholder="Quais cirurgias?"><input type="text" placeholder="Há quanto tempo?"></div>
+        <div class="conditional" id="cir-det">
+          <div class="row2" style="margin-top:6px">
+            <div class="field"><input type="text" placeholder="Quais?"></div>
+            <div class="field"><input type="text" placeholder="Há quanto tempo?"></div>
+          </div>
         </div>
       </div>
       <div class="field">
         <label>Alergias</label>
         <div class="radio-inline">
-          <div class="radio-btn" onclick="toggleConditional(this,'ale','ale-g',true)">Sim</div>
-          <div class="radio-btn" onclick="toggleConditional(this,'ale','ale-g',false)">Não</div>
+          <div class="radio-btn" onclick="toggleConditional(this,'aler','aler-det',true)">Sim</div>
+          <div class="radio-btn" onclick="toggleConditional(this,'aler','aler-det',false)">Não</div>
         </div>
-        <div class="conditional" id="ale-g"><input type="text" placeholder="A quê?"></div>
+        <div class="conditional" id="aler-det">
+          <div class="field" style="margin-top:6px"><input type="text" placeholder="A quê?"></div>
+        </div>
       </div>
     </div>
-  </section>
+  </div>
 
-  <!-- MEDICAMENTOS -->
-  <section class="card" id="sec-med">
-    <div class="card-header"><span class="num">·</span><span class="title">Medicamentos em uso</span></div>
+  <!-- ====== MEDICAMENTOS ====== -->
+  <div class="card" id="sec-medic">
+    <div class="card-header"><span>3. Medicamentos em Uso</span></div>
     <div class="card-body">
       <div class="field">
-        <label>Polifarmácia (5 ou mais medicamentos)</label>
+        <label>Polifarmácia (≥ 5 medicamentos)</label>
         <div class="radio-inline">
-          <div class="radio-btn" onclick="toggleRadio(this,'poli')">Sim</div>
-          <div class="radio-btn" onclick="toggleRadio(this,'poli')">Não</div>
+          <div class="radio-btn" onclick="toggleRadio(this,'polif')">Sim</div>
+          <div class="radio-btn" onclick="toggleRadio(this,'polif')">Não</div>
         </div>
       </div>
-      <div style="overflow-x:auto">
-        <table class="med-table" id="medTable">
-          <thead><tr><th>Nome</th><th>Concentração</th><th>Posologia</th><th>Tempo uso</th></tr></thead>
-          <tbody id="medBody">
-            <tr><td><input type="text" placeholder="Medicamento"></td><td><input type="text" placeholder="Dose"></td><td><input type="text" placeholder="Posologia"></td><td><input type="text" placeholder="Tempo"></td></tr>
-            <tr><td><input type="text" placeholder="Medicamento"></td><td><input type="text" placeholder="Dose"></td><td><input type="text" placeholder="Posologia"></td><td><input type="text" placeholder="Tempo"></td></tr>
-            <tr><td><input type="text" placeholder="Medicamento"></td><td><input type="text" placeholder="Dose"></td><td><input type="text" placeholder="Posologia"></td><td><input type="text" placeholder="Tempo"></td></tr>
-            <tr><td><input type="text" placeholder="Medicamento"></td><td><input type="text" placeholder="Dose"></td><td><input type="text" placeholder="Posologia"></td><td><input type="text" placeholder="Tempo"></td></tr>
-            <tr><td><input type="text" placeholder="Medicamento"></td><td><input type="text" placeholder="Dose"></td><td><input type="text" placeholder="Posologia"></td><td><input type="text" placeholder="Tempo"></td></tr>
-          </tbody>
+      <div style="overflow-x:auto;border-radius:var(--radius);border:0.5px solid var(--border)">
+        <table class="med-table">
+          <thead>
+            <tr>
+              <th>Medicamento</th>
+              <th style="width:90px">Conc.</th>
+              <th style="width:100px">Posologia</th>
+              <th style="width:70px">Tempo</th>
+              <th style="width:30px"></th>
+            </tr>
+          </thead>
+          <tbody id="medBody"></tbody>
         </table>
       </div>
       <button class="add-btn" onclick="addMed()">＋ Adicionar medicamento</button>
+      <div class="field"><label>QP e HDA</label><textarea style="min-height:100px" placeholder="Queixa principal e história da doença atual — duração, início, evolução, localização, irradiação, intensidade, qualidade, sinais/sintomas concomitantes, fatores desencadeantes, agravantes, alívio, repercussão, tratamentos realizados"></textarea></div>
     </div>
-  </section>
+  </div>
 
-  <!-- REVISÃO -->
-  <section class="card" id="sec-rev">
-    <div class="card-header"><span class="num">·</span><span class="title">Revisão dos sistemas</span></div>
+    <!-- ====== AVALIAÇÃO DE QUEDAS ====== -->
+  <div class="card" id="sec-quedas">
+    <div class="card-header"><span>6. Avaliação de Quedas</span></div>
     <div class="card-body">
-      <div class="field"><label>Visão e audição</label><textarea placeholder="Atual e última avaliação oftalmológica; audição"></textarea></div>
-      <div class="field"><label>Apetite / peso</label><textarea placeholder="Ganho ou perda de peso? Quanto? Em quanto tempo?"></textarea></div>
-      <div class="field"><label>Alimentação / deglutição</label><textarea placeholder="Cálcio, frutas, legumes / engasgos"></textarea></div>
-      <div class="field"><label>Cardiovascular e respiratório</label><textarea placeholder="Dispneia, cansaço aos esforços, dor pré-cordial"></textarea></div>
-      <div class="field"><label>Trato gastrointestinal</label><textarea placeholder="Sintomas dispépticos, hábito intestinal, pirose, dor abdominal"></textarea></div>
-      <div class="field"><label>TGU</label><textarea placeholder="Incontinência, disúria; última MMG e preventivo, idade da menopausa"></textarea></div>
-      <div class="field"><label>Osteoarticular / marcha / quedas</label><textarea placeholder="Instrumento de auxílio, quedas no último ano"></textarea></div>
-      <div class="field"><label>Sono</label><input type="text" placeholder="Qualidade do sono, insônia, uso de medicação"></div>
-      <div class="field"><label>Memória</label><textarea placeholder="Esquecimentos, prejuízo de memória recente, piora gradual com interferência nas AVDs"></textarea></div>
-      <div class="field"><label>Humor</label><input type="text" placeholder="Tristeza, anedonia, irritabilidade"></div>
-      <div class="field"><label>Vacinação</label><textarea placeholder="Quais vacinas? Quando? Antitetânica, influenza, covid, pneumo 23..."></textarea></div>
-      <div class="field"><label>Atividade física / fisioterapia</label><textarea placeholder="Quais? Quantas vezes na semana?"></textarea></div>
-    </div>
-  </section>
-
-  <!-- QUEDAS -->
-  <section class="card" id="sec-quedas">
-    <div class="card-header"><span class="num">·</span><span class="title">Avaliação de quedas</span></div>
-    <div class="card-body">
-      <div class="field"><label>Caiu no último ano? Quantas vezes?</label><input type="text" placeholder="Sim/Não — quantas vezes?"></div>
-      <div class="field"><label>Como as quedas ocorrem? Em que ambiente?</label><textarea placeholder="Descreva as circunstâncias e o ambiente"></textarea></div>
-      <div class="field"><label>Mecanismo da queda</label>
-        <div class="tags-row">
-          <span class="tag-check" onclick="this.classList.toggle('active')">Tropeço</span>
-          <span class="tag-check" onclick="this.classList.toggle('active')">Desequilíbrio</span>
-          <span class="tag-check" onclick="this.classList.toggle('active')">Desmaio</span>
-          <span class="tag-check" onclick="this.classList.toggle('active')">Durante atividade</span>
+      <div class="field">
+        <label>Caiu no último ano?</label>
+        <div class="radio-inline">
+          <div class="radio-btn" onclick="toggleConditional(this,'queda','queda-det',true)">Sim</div>
+          <div class="radio-btn" onclick="toggleConditional(this,'queda','queda-det',false)">Não</div>
+        </div>
+        <div class="conditional" id="queda-det">
+          <div class="field" style="margin-top:8px"><label>Quantas vezes?</label><input type="number" min="0" placeholder="nº de quedas"></div>
+          <div class="field" style="margin-top:8px"><label>Como ocorreram / ambiente</label><textarea placeholder="Dentro de casa, na rua, banheiro..."></textarea></div>
+          <div class="field" style="margin-top:8px">
+            <label>Mecanismo</label>
+            <div class="tags-row">
+              <span class="tag-check" onclick="this.classList.toggle('active')">Tropeço</span>
+              <span class="tag-check" onclick="this.classList.toggle('active')">Desequilíbrio</span>
+              <span class="tag-check" onclick="this.classList.toggle('active')">Desmaio</span>
+              <span class="tag-check" onclick="this.classList.toggle('active')">Durante atividade</span>
+              <span class="tag-check" onclick="this.classList.toggle('active')">Outro</span>
+            </div>
+          </div>
+          <div class="field" style="margin-top:8px"><label>Sintomas antes de cair</label><textarea placeholder="Tontura, fraqueza, visão turva..."></textarea></div>
         </div>
       </div>
-      <div class="field"><label>Sentiu algum sintoma antes de cair?</label><input type="text" placeholder="Tontura, fraqueza, escurecimento visual..."></div>
     </div>
-  </section>
+  </div>
 
-  <!-- EXAME CLÍNICO -->
-  <section class="card" id="sec-3">
-    <div class="card-header"><span class="num">03</span><span class="title">Exame clínico / físico</span></div>
+  <!-- ====== EXAME FÍSICO ====== -->
+  <div class="card" id="sec-exame">
+    <div class="card-header"><span>7. Exame Físico</span></div>
     <div class="card-body">
 
+      <div class="field"><label>Inspeção</label><textarea placeholder="Aspectos gerais observados na inspeção"></textarea></div>
+
       <div class="field">
-        <label>3.1 — Apresentação do paciente</label>
+        <label>Pressão arterial</label>
+        <div class="row2" style="margin-top:4px">
+          <div class="field"><label>MSD</label><input type="text" placeholder="000/00 mmHg"></div>
+          <div class="field"><label>MSE</label><input type="text" placeholder="000/00 mmHg"></div>
+        </div>
+        <div class="field" style="margin-top:8px"><label>PA em pé (membro da PA mais alta)</label><input type="text" placeholder="000/00 mmHg"></div>
+      </div>
+
+      <div class="row2">
+        <div class="field"><label>Altura (cm)</label><input type="number" placeholder="cm" id="altura" oninput="calcIMC()"></div>
+        <div class="field"><label>Peso (kg)</label><input type="number" placeholder="kg" id="peso" oninput="calcIMC()"></div>
+      </div>
+      <div class="field"><label>IMC calculado</label><input type="text" id="imcVal" placeholder="—" readonly style="background:var(--bg3)"></div>
+
+      <div class="row2">
+        <div class="field"><label>Circ. abdominal (cm)</label><input type="number" placeholder="cm"></div>
+        <div class="field"><label>Circ. panturrilha (cm)</label><input type="number" placeholder="cm" id="pantDireita"></div>
+      </div>
+      <div class="info-box">Baixa massa muscular: H &lt; 34 cm · M &lt; 33 cm</div>
+
+      <div class="row3">
+        <div class="field"><label>FC (bpm)</label><input type="number" placeholder="bpm"></div>
+        <div class="field"><label>FR (rpm)</label><input type="number" placeholder="rpm"></div>
+        <div class="field"><label>SpO₂ (%)</label><input type="number" placeholder="%"></div>
+      </div>
+
+      <div class="field"><label>Tax (°C)</label><input type="number" placeholder="°C" step="0.1"></div>
+
+      <div class="field"><label>Ausculta pulmonar</label><input type="text" placeholder="AP"></div>
+
+      <div class="field"><label>Membros inferiores</label><textarea placeholder="Edemas, varizes, pulsos..."></textarea></div>
+
+    </div>
+  </div>
+
+  <!-- ====== FISIOTERAPIA ====== -->
+  <div class="card" id="sec-fisio">
+    <div class="card-header"><span>8. Avaliação Fisioterapêutica</span></div>
+    <div class="card-body">
+      <div class="field">
+        <label>Apresentação</label>
         <div class="checkbox-group">
           <div class="checkbox-item"><input type="checkbox" id="c1"><label for="c1">Deambulando</label></div>
           <div class="checkbox-item"><input type="checkbox" id="c2"><label for="c2">Deambulando com apoio / auxílio</label></div>
@@ -297,83 +262,19 @@
           <div class="checkbox-item"><input type="checkbox" id="c4"><label for="c4">Restrito ao leito</label></div>
         </div>
       </div>
-
-      <div class="field">
-        <label>3.2 — Exames complementares</label>
-        <div class="radio-inline">
-          <div class="radio-btn" onclick="toggleConditional(this,'exComp','ec-group',true)">Sim</div>
-          <div class="radio-btn" onclick="toggleConditional(this,'exComp','ec-group',false)">Não</div>
-        </div>
-        <div class="conditional" id="ec-group"><textarea placeholder="Quais exames complementares?"></textarea></div>
-      </div>
-
-      <div class="field">
-        <label>Estado geral</label>
-        <div class="radio-inline">
-          <div class="radio-btn" onclick="toggleRadio(this,'eg')">BEG</div>
-          <div class="radio-btn" onclick="toggleRadio(this,'eg')">REG</div>
-          <div class="radio-btn" onclick="toggleRadio(this,'eg')">MEG</div>
-        </div>
-        <div class="radio-inline" style="margin-top:6px">
-          <div class="radio-btn" onclick="toggleRadio(this,'loc')">LOC</div>
-          <div class="radio-btn" onclick="toggleRadio(this,'loc')">MUC</div>
-          <div class="radio-btn" onclick="toggleRadio(this,'loc')">AAA</div>
-        </div>
-      </div>
-
-      <div class="field"><label>Inspeção</label><textarea placeholder="Achados da inspeção"></textarea></div>
-
-      <p class="subsec">Pressão arterial</p>
-      <div class="row2">
-        <div class="field"><label>PA MSD</label><input type="text" placeholder="___x___ mmHg"></div>
-        <div class="field"><label>PA MSE</label><input type="text" placeholder="___x___ mmHg"></div>
-      </div>
-      <div class="field"><label>PA em pé (membro da PA mais alta)</label><input type="text" placeholder="___x___ mmHg"></div>
-
-      <p class="subsec">Medidas antropométricas</p>
-      <div class="row3">
-        <div class="field"><label>Altura (cm)</label><input type="number" placeholder="cm"></div>
-        <div class="field"><label>Peso (kg)</label><input type="number" placeholder="kg"></div>
-        <div class="field"><label>IMC</label><input type="number" id="imc" placeholder="calc." readonly style="background:var(--accent-soft);color:var(--accent);font-weight:600"></div>
-      </div>
-      <div class="row2">
-        <div class="field"><label>Circ. abdominal (cm)</label><input type="number" placeholder="cm"></div>
-        <div class="field"><label>Circ. panturrilha (cm)</label><input type="number" placeholder="cm"></div>
-      </div>
-      <p class="hint">Baixa massa muscular: Homens &lt; 34,0 cm | Mulheres &lt; 33,0 cm</p>
-
-      <p class="subsec">Sinais vitais</p>
-      <div class="row3">
-        <div class="field"><label>FC (bpm)</label><input type="number" placeholder="bpm"></div>
-        <div class="field"><label>FR (rpm)</label><input type="number" placeholder="rpm"></div>
-        <div class="field"><label>SpO₂ (%)</label><input type="number" placeholder="%"></div>
-      </div>
-      <div class="row3">
-        <div class="field"><label>Tax (°C)</label><input type="number" step="0.1" placeholder="°C"></div>
-        <div class="field"><label>HGT (mg/dl)</label><input type="number" placeholder="mg/dl"></div>
-        <div class="field"><label>AP / AC</label><input type="text" placeholder="AP / AC"></div>
-      </div>
-
-      <div class="field"><label>Abdome</label><textarea placeholder="Achados do exame abdominal"></textarea></div>
-      <div class="field"><label>Membros inferiores</label><textarea placeholder="Achados dos membros inferiores"></textarea></div>
-
-      <div class="field">
-        <label>3.5 — Inspeção / palpação</label>
+      <div class="field"><label>Inspeção / Palpação</label>
         <div class="tags-row">
           <span class="tag-check" onclick="this.classList.toggle('active')">Normal</span>
           <span class="tag-check" onclick="this.classList.toggle('active')">Edema</span>
           <span class="tag-check" onclick="this.classList.toggle('active')">Cicatrização incompleta</span>
-          <span class="tag-check" onclick="this.classList.toggle('active')">Eritemas</span>
-          <span class="tag-check" onclick="this.classList.toggle('active')">Outros</span>
+          <span class="tag-check" onclick="this.classList.toggle('active')">Eritema</span>
+          <span class="tag-check" onclick="this.classList.toggle('active')">Outro</span>
         </div>
-        <div class="field" style="margin-top:10px"><input type="text" placeholder="Observações adicionais"></div>
+        <div class="field" style="margin-top:8px"><input type="text" placeholder="Observações"></div>
       </div>
-
-      <div class="field"><label>3.6 — Semiologia</label><textarea style="min-height:100px" placeholder="Exame físico, estado geral, mucosa, pele, hidratação..."></textarea></div>
-      <div class="field"><label>3.7 — Testes específicos</label><textarea placeholder="Descreva os testes realizados e seus resultados"></textarea></div>
-
+      <div class="field"><label>Testes específicos</label><textarea placeholder="Testes realizados e resultados"></textarea></div>
       <div class="field">
-        <label>3.8 — Avaliação da intensidade da dor (EVA)</label>
+        <label>Avaliação da dor (EVA)</label>
         <div class="eva-wrap">
           <div class="eva-value" id="evaVal">5</div>
           <div class="eva-desc" id="evaDesc">Dor moderada</div>
@@ -384,217 +285,324 @@
           <div class="eva-labels"><span>0 — Sem dor</span><span>5 — Moderada</span><span>10 — Máxima</span></div>
         </div>
       </div>
-
+      <div class="field"><label>Objetivos terapêuticos</label><textarea placeholder="Objetivos definidos para o tratamento fisioterapêutico"></textarea></div>
+      <div class="field"><label>Recursos terapêuticos</label><textarea placeholder="Eletroterapia, cinesioterapia, termoterapia..."></textarea></div>
+      <div class="field"><label>Plano de tratamento</label><textarea style="min-height:80px" placeholder="Frequência, duração, técnicas e procedimentos"></textarea></div>
     </div>
-  </section>
+  </div>
 
-  <!-- PLANO -->
-  <section class="card" id="sec-4">
-    <div class="card-header"><span class="num">04</span><span class="title">Plano terapêutico</span></div>
-    <div class="card-body">
-      <div class="field"><label>4.1 — Objetivos de tratamento</label><textarea placeholder="Descreva os objetivos terapêuticos"></textarea></div>
-      <div class="field"><label>4.2 — Recursos terapêuticos</label><textarea placeholder="Eletroterapia, cinesioterapia, termoterapia..."></textarea></div>
-      <div class="field"><label>4.3 — Plano de tratamento</label><textarea style="min-height:90px" placeholder="Frequência, duração, técnicas e procedimentos"></textarea></div>
-    </div>
-  </section>
+<button class="evo-print-btn no-print" onclick="printEvo()">🖨️ Imprimir evoluções diárias (PDF)</button>
 
-  <!-- EVOLUÇÕES -->
-  <section class="card" id="sec-evo">
-    <div class="card-header"><span class="num">4.4</span><span class="title">Evoluções</span></div>
+  <!-- ====== EVOLUÇÕES ====== -->
+  <div class="card" id="sec-evolucoes">
+    <div class="card-header"><span>8b. Evoluções Diárias</span></div>
     <div class="card-body">
       <div id="evolucoes"></div>
       <button class="add-btn" onclick="addEvolucao()">＋ Adicionar evolução</button>
     </div>
-  </section>
-
-  <!-- HIPÓTESES -->
-  <section class="card" id="sec-hip">
-    <div class="card-header"><span class="num">·</span><span class="title">Hipóteses diagnósticas e condutas</span></div>
-    <div class="card-body">
-      <div class="field"><label>Hipóteses diagnósticas</label><textarea placeholder="Liste as hipóteses diagnósticas"></textarea></div>
-      <div class="field"><label>Condutas</label><textarea placeholder="Condutas definidas"></textarea></div>
-    </div>
-  </section>
-
-  <!-- ESCALAS -->
-  <section class="card" id="sec-esc">
-    <div class="card-header"><span class="num">05</span><span class="title">Escalas e testes especiais</span></div>
-    <div class="card-body">
-
-      <p class="subsec" style="border-top:0;padding-top:0;margin-top:0">1. Escala de Fragilidade (FRAIL)</p>
-      <p class="hint">Cada item = 1 ponto. 0 = não frágil | 1-2 = pré-frágil | ≥3 = frágil</p>
-      <div class="checkbox-group">
-        <div class="checkbox-item"><input type="checkbox" id="fr1" onchange="calcFrail()"><label for="fr1">F — Fadiga ao se exercitar</label></div>
-        <div class="checkbox-item"><input type="checkbox" id="fr2" onchange="calcFrail()"><label for="fr2">R — Resistência: não sobe um lance de escadas sem auxílio</label></div>
-        <div class="checkbox-item"><input type="checkbox" id="fr3" onchange="calcFrail()"><label for="fr3">A — Deambulação: não anda um quarteirão sem auxílio</label></div>
-        <div class="checkbox-item"><input type="checkbox" id="fr4" onchange="calcFrail()"><label for="fr4">I — 5 ou mais comorbidades</label></div>
-        <div class="checkbox-item"><input type="checkbox" id="fr5" onchange="calcFrail()"><label for="fr5">L — Perda de peso &gt; 5%</label></div>
-      </div>
-      <div class="score-result"><label>Score FRAIL</label><input type="text" id="frailScore" value="0/5" readonly></div>
-
-      <p class="subsec">2. Índice de Katz (ABVDs)</p>
-      <p class="hint">Independência = 1 pt | Dependência = 0 pt. Total /6. 6=independente | 4=dep. moderada | ≤2=muito dependente</p>
-      <div id="katzItems"></div>
-      <div class="score-result"><label>Score Katz</label><input type="text" id="katzScore" value="0/6" readonly></div>
-
-      <p class="subsec">3. Questionário de Pfeffer (AIVDs)</p>
-      <p class="hint">0=capaz | 1=dificuldade/nunca fez | 2=necessita ajuda | 3=não é capaz. Total /33</p>
-      <div id="pfefferItems"></div>
-      <div class="score-result"><label>Score Pfeffer</label><input type="text" id="pfefferScore" value="0/33" readonly></div>
-
-      <p class="subsec">4. Escala de Lawton (AIVDs)</p>
-      <p class="hint">3=sem ajuda | 2=ajuda parcial | 1=não consegue. Total /27. 26-27=independência | 21-25=dep. leve | 16-20=mod. | 10-15=grave | 9=total</p>
-      <div id="lawtonItems"></div>
-      <div class="score-result"><label>Score Lawton</label><input type="text" id="lawtonScore" value="0/27" readonly></div>
-
-      <p class="subsec">5. Timed Up and Go (TUG)</p>
-      <p class="hint">Levantar da cadeira, andar 3m, voltar e sentar. ≤10s=baixo risco | 10-20s=independente | 21-29s=risco moderado | ≥30s=alto risco</p>
-      <div class="field"><label>Tempo (segundos)</label><input type="number" step="0.1" placeholder="segundos" id="tugTime" oninput="calcTug()"></div>
-      <div id="tugResult"></div>
-
-      <p class="subsec">6. Velocidade da marcha</p>
-      <p class="hint">4 metros. Andar o mais rápido sem correr. Menor tempo. &lt;0,8m/s = baixo desempenho</p>
-      <div class="field"><label>Tempo (segundos)</label><input type="number" step="0.1" placeholder="segundos"></div>
-
-      <p class="subsec">7. SARC-F + Circunferência da Panturrilha (SARC-F CC)</p>
-      <p class="hint">Somatório 0-20. Sarcopenia: ≥11 pontos</p>
-      <div id="sarcfItems"></div>
-      <div class="field"><label>Média panturrilha direita (cm)</label><input type="number" step="0.1" placeholder="cm" id="sarcCC" oninput="calcSarc()"></div>
-      <div class="field"><label>Sexo para SARC-F CC</label>
-        <div class="radio-inline">
-          <div class="radio-btn" onclick="toggleRadio(this,'sarcSexo');calcSarc()">Fem. (≥33cm=0)</div>
-          <div class="radio-btn" onclick="toggleRadio(this,'sarcSexo');calcSarc()">Masc. (≥34cm=0)</div>
-        </div>
-      </div>
-      <div class="score-result"><label>Score SARC-F CC</label><input type="text" id="sarcScore" value="0/20" readonly></div>
-
-      <p class="subsec">8. Mini Exame do Estado Mental (MEEM)</p>
-      <p class="hint">Pontos de corte: 20=analfabetos | 25=1-4 anos | 26=5-8 anos | 28=9-11 anos | 29=&gt;11 anos</p>
-      <div id="meemSections"></div>
-      <div class="score-result"><label>Score MEEM</label><input type="text" id="meemScore" value="0/30" readonly></div>
-
-      <p class="subsec">11. Escala de Depressão Geriátrica (GDS-15)</p>
-      <p class="hint">0-5 = normal | 6-10 = depressão leve | 11-15 = depressão severa</p>
-      <div id="gdsItems"></div>
-      <div class="score-result"><label>Score GDS</label><input type="text" id="gdsScore" value="0/15" readonly></div>
-
-      <p class="subsec">10. Apgar de Família</p>
-      <p class="hint">0-4 = elevada disfunção | 5-6 = moderada disfunção | 7-10 = boa funcionalidade</p>
-      <div id="apgarItems"></div>
-      <div class="score-result"><label>Score Apgar Família</label><input type="text" id="apgarScore" value="0/10" readonly></div>
-
-      <p class="subsec">MNA — Mini Nutritional Assessment</p>
-      <div class="field"><label>Resultado da triagem (0-14)</label><input type="number" placeholder="Pontuação triagem"></div>
-      <div class="field"><label>Pontuação total (0-30)</label><input type="number" placeholder="Pontuação total"></div>
-      <div class="field"><label>Classificação</label>
-        <div class="radio-inline">
-          <div class="radio-btn" onclick="toggleRadio(this,'mna')">Normal (≥24)</div>
-          <div class="radio-btn" onclick="toggleRadio(this,'mna')">Risco (17-23,5)</div>
-          <div class="radio-btn" onclick="toggleRadio(this,'mna')">Desnutrido (&lt;17)</div>
-        </div>
-      </div>
-
-      <p class="subsec">9. Bateria Breve de Rastreio Cognitivo</p>
-      <div class="row2">
-        <div class="field"><label>Identificação/nomeação</label><input type="text" placeholder="/10"></div>
-        <div class="field"><label>Memória incidental</label><input type="text" placeholder="/10"></div>
-      </div>
-      <div class="row2">
-        <div class="field"><label>Memória imediata</label><input type="text" placeholder="/10"></div>
-        <div class="field"><label>Aprendizado</label><input type="text" placeholder="/10"></div>
-      </div>
-      <div class="row2">
-        <div class="field"><label>Memória tardia (5min)</label><input type="text" placeholder="/10"></div>
-        <div class="field"><label>Reconhecimento</label><input type="text" placeholder="/10"></div>
-      </div>
-      <div class="row2">
-        <div class="field"><label>Fluência verbal (total)</label><input type="text" placeholder="animais/1min"></div>
-        <div class="field"><label>Desenho do relógio</label><input type="text" placeholder="/10"></div>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- AVALIAÇÃO FINAL -->
-  <section class="card" id="sec-final">
-    <div class="card-header"><span class="num">06</span><span class="title">Avaliação final</span></div>
-    <div class="card-body">
-      <div class="field"><label>Funcionalidade</label>
-        <div class="radio-inline">
-          <div class="radio-btn" onclick="toggleRadio(this,'func')">Independente</div>
-          <div class="radio-btn" onclick="toggleRadio(this,'func')">Dep. leve</div>
-          <div class="radio-btn" onclick="toggleRadio(this,'func')">Dep. grave</div>
-        </div>
-      </div>
-      <div class="field"><label>Risco de quedas</label>
-        <div class="radio-inline">
-          <div class="radio-btn" onclick="toggleRadio(this,'rqued')">Baixo</div>
-          <div class="radio-btn" onclick="toggleRadio(this,'rqued')">Moderado</div>
-          <div class="radio-btn" onclick="toggleRadio(this,'rqued')">Alto</div>
-        </div>
-      </div>
-      <div class="field"><label>Estado nutricional</label>
-        <div class="radio-inline">
-          <div class="radio-btn" onclick="toggleRadio(this,'nutri')">Normal</div>
-          <div class="radio-btn" onclick="toggleRadio(this,'nutri')">Risco desnutrição</div>
-          <div class="radio-btn" onclick="toggleRadio(this,'nutri')">Desnutrido</div>
-        </div>
-      </div>
-      <div class="field"><label>Suporte familiar</label>
-        <div class="radio-inline">
-          <div class="radio-btn" onclick="toggleRadio(this,'suporte')">Bom</div>
-          <div class="radio-btn" onclick="toggleRadio(this,'suporte')">Regular</div>
-          <div class="radio-btn" onclick="toggleRadio(this,'suporte')">Inadequado</div>
-        </div>
-      </div>
-      <div class="field"><label>Cognição</label>
-        <div class="radio-inline">
-          <div class="radio-btn" onclick="toggleRadio(this,'cogn')">Subjetivo</div>
-          <div class="radio-btn" onclick="toggleRadio(this,'cogn')">CCL</div>
-          <div class="radio-btn" onclick="toggleRadio(this,'cogn')">Demência</div>
-        </div>
-      </div>
-      <div class="field"><label>Fragilidade</label>
-        <div class="radio-inline">
-          <div class="radio-btn" onclick="toggleRadio(this,'frag')">Não frágil</div>
-          <div class="radio-btn" onclick="toggleRadio(this,'frag')">Pré-frágil</div>
-          <div class="radio-btn" onclick="toggleRadio(this,'frag')">Frágil</div>
-        </div>
-      </div>
-      <div class="avf-grid" style="margin-top:6px">
-        <div class="avf-item"><input type="checkbox" id="av1"><label for="av1">Depressão</label></div>
-        <div class="avf-item"><input type="checkbox" id="av2"><label for="av2">Polifarmácia</label></div>
-        <div class="avf-item"><input type="checkbox" id="av3"><label for="av3">Não adesão ao trat.</label></div>
-        <div class="avf-item"><input type="checkbox" id="av4"><label for="av4">Sarcopenia</label></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ASSINATURA -->
-  <section class="card" id="sec-sig">
-    <div class="card-header"><span class="num">·</span><span class="title">Assinatura</span></div>
-    <div class="card-body">
-      <div class="field"><label>Nome completo do fisioterapeuta</label><input type="text" value="Bruna Costa Silveira"></div>
-      <div class="field"><label>CREFITO</label><input type="text" value="393748-F"></div>
-    </div>
-  </section>
-
-  <div class="action-row">
-    <button class="print-btn" onclick="window.print()">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
-      Imprimir / PDF
-    </button>
-    <button class="save-btn" onclick="salvar()">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
-      Salvar avaliação
-    </button>
   </div>
 
-  </main>
+  <!-- ====== ESCALAS ====== -->
+  <div class="card" id="sec-escalas">
+    <div class="card-header"><span>9. Escalas e Testes</span></div>
+    <div class="card-body">
+
+      <!-- KATZ -->
+      <div class="field">
+        <label>9.1 — Índice de Katz (ABVDs)</label>
+        <button class="na-btn" onclick="toggleNA(this,'na-katz')">○ Não aplicável</button>
+        <span class="na-tag">Não aplicável</span>
+        <div class="na-overlay" id="na-katz">
+        <div style="display:flex;flex-direction:column;gap:6px">
+          <div class="scale-item"><span class="s-label">Banhar-se</span><div class="scale-opts"><div class="s-btn" onclick="setKatz(this,0,'katz-banho')">0</div><div class="s-btn" onclick="setKatz(this,1,'katz-banho')">1</div></div></div>
+          <div class="scale-item"><span class="s-label">Vestir-se</span><div class="scale-opts"><div class="s-btn" onclick="setKatz(this,0,'katz-vest')">0</div><div class="s-btn" onclick="setKatz(this,1,'katz-vest')">1</div></div></div>
+          <div class="scale-item"><span class="s-label">Ir ao banheiro</span><div class="scale-opts"><div class="s-btn" onclick="setKatz(this,0,'katz-banh')">0</div><div class="s-btn" onclick="setKatz(this,1,'katz-banh')">1</div></div></div>
+          <div class="scale-item"><span class="s-label">Transferência (cama/cadeira)</span><div class="scale-opts"><div class="s-btn" onclick="setKatz(this,0,'katz-trans')">0</div><div class="s-btn" onclick="setKatz(this,1,'katz-trans')">1</div></div></div>
+          <div class="scale-item"><span class="s-label">Continência</span><div class="scale-opts"><div class="s-btn" onclick="setKatz(this,0,'katz-cont')">0</div><div class="s-btn" onclick="setKatz(this,1,'katz-cont')">1</div></div></div>
+          <div class="scale-item"><span class="s-label">Alimentação</span><div class="scale-opts"><div class="s-btn" onclick="setKatz(this,0,'katz-alim')">0</div><div class="s-btn" onclick="setKatz(this,1,'katz-alim')">1</div></div></div>
+        </div>
+        <div class="score-box" style="margin-top:8px">
+          <span class="sc-label">Katz</span>
+          <span class="sc-val" id="katzScore">— / 6</span>
+        </div>
+        <div class="score-interp" id="katzInterp">6 = Independente · 4 = Dep. moderada · ≤2 = Muito dependente</div>
+        </div>
+      </div>
+
+      <!-- LAWTON -->
+      <div class="field">
+        <label>9.2 — Escala de Lawton (AIVDs)</label>
+        <button class="na-btn" onclick="toggleNA(this,'na-lawton')">○ Não aplicável</button>
+        <span class="na-tag">Não aplicável</span>
+        <div class="na-overlay" id="na-lawton">
+        <div style="display:flex;flex-direction:column;gap:6px">
+          <div class="scale-item"><span class="s-label">Usar o telefone</span><div class="scale-opts"><div class="s-btn" onclick="setLaw(this,1,'l1')">1</div><div class="s-btn" onclick="setLaw(this,2,'l1')">2</div><div class="s-btn" onclick="setLaw(this,3,'l1')">3</div></div></div>
+          <div class="scale-item"><span class="s-label">Ir a locais distantes (transporte)</span><div class="scale-opts"><div class="s-btn" onclick="setLaw(this,1,'l2')">1</div><div class="s-btn" onclick="setLaw(this,2,'l2')">2</div><div class="s-btn" onclick="setLaw(this,3,'l2')">3</div></div></div>
+          <div class="scale-item"><span class="s-label">Fazer compras</span><div class="scale-opts"><div class="s-btn" onclick="setLaw(this,1,'l3')">1</div><div class="s-btn" onclick="setLaw(this,2,'l3')">2</div><div class="s-btn" onclick="setLaw(this,3,'l3')">3</div></div></div>
+          <div class="scale-item"><span class="s-label">Preparar refeições</span><div class="scale-opts"><div class="s-btn" onclick="setLaw(this,1,'l4')">1</div><div class="s-btn" onclick="setLaw(this,2,'l4')">2</div><div class="s-btn" onclick="setLaw(this,3,'l4')">3</div></div></div>
+          <div class="scale-item"><span class="s-label">Arrumar a casa</span><div class="scale-opts"><div class="s-btn" onclick="setLaw(this,1,'l5')">1</div><div class="s-btn" onclick="setLaw(this,2,'l5')">2</div><div class="s-btn" onclick="setLaw(this,3,'l5')">3</div></div></div>
+          <div class="scale-item"><span class="s-label">Trabalhos manuais domésticos</span><div class="scale-opts"><div class="s-btn" onclick="setLaw(this,1,'l6')">1</div><div class="s-btn" onclick="setLaw(this,2,'l6')">2</div><div class="s-btn" onclick="setLaw(this,3,'l6')">3</div></div></div>
+          <div class="scale-item"><span class="s-label">Lavar e passar roupa</span><div class="scale-opts"><div class="s-btn" onclick="setLaw(this,1,'l7')">1</div><div class="s-btn" onclick="setLaw(this,2,'l7')">2</div><div class="s-btn" onclick="setLaw(this,3,'l7')">3</div></div></div>
+          <div class="scale-item"><span class="s-label">Tomar remédios (dose/horário)</span><div class="scale-opts"><div class="s-btn" onclick="setLaw(this,1,'l8')">1</div><div class="s-btn" onclick="setLaw(this,2,'l8')">2</div><div class="s-btn" onclick="setLaw(this,3,'l8')">3</div></div></div>
+          <div class="scale-item"><span class="s-label">Cuidar das finanças</span><div class="scale-opts"><div class="s-btn" onclick="setLaw(this,1,'l9')">1</div><div class="s-btn" onclick="setLaw(this,2,'l9')">2</div><div class="s-btn" onclick="setLaw(this,3,'l9')">3</div></div></div>
+        </div>
+        <div class="info-box" style="margin-top:6px;margin-bottom:4px">1=Não consegue · 2=Com ajuda parcial · 3=Sem ajuda</div>
+        <div class="score-box">
+          <span class="sc-label">Lawton</span>
+          <span class="sc-val" id="lawScore">— / 27</span>
+        </div>
+        <div class="score-interp" id="lawInterp">9=Total dep. · 10-15=Dep. grave · 16-20=Dep. moderada · 21-25=Dep. leve · 26-27=Independente</div>
+        </div>
+      </div>
+
+      <!-- TUG -->
+      <div class="field">
+        <label>9.3 — TUG (Timed Up and Go)</label>
+        <button class="na-btn" onclick="toggleNA(this,'na-tug')">○ Não aplicável</button>
+        <span class="na-tag">Não aplicável</span>
+        <div class="na-overlay" id="na-tug">
+        <div class="info-box" style="margin-bottom:8px">Levantar da cadeira sem apoio dos braços, caminhar 3m, voltar e sentar. Realizar 1× para familiarização, depois cronometrar.</div>
+        <div class="tug-display">
+          <div class="tug-val" id="tugDisplay">0.0</div>
+          <div class="tug-unit">segundos</div>
+          <div class="tug-btns">
+            <button class="tug-btn tug-start" id="tugBtn" onclick="tugToggle()">▶ Iniciar</button>
+            <button class="tug-btn" onclick="tugReset()">↺ Zerar</button>
+          </div>
+        </div>
+        <div class="field" style="margin-top:8px"><label>Ou informe o tempo manualmente (seg.)</label><input type="number" step="0.1" min="0" id="tugManual" placeholder="segundos" oninput="tugManualUpdate()"></div>
+        <div class="score-box" style="margin-top:6px">
+          <span class="sc-label">TUG</span>
+          <span class="sc-val" id="tugScore">—</span>
+        </div>
+        <div class="score-interp" id="tugInterp">≤10s: baixo risco · 10-20s: frágil/indep. · 21-29s: risco moderado · &gt;30s: alto risco</div>
+        </div>
+      </div>
+
+      <!-- VELOCIDADE DA MARCHA -->
+      <div class="field">
+        <label>9.4 — Velocidade da Marcha (4m)</label>
+        <button class="na-btn" onclick="toggleNA(this,'na-vm')">○ Não aplicável</button>
+        <span class="na-tag">Não aplicável</span>
+        <div class="na-overlay" id="na-vm">
+        <div class="info-box" style="margin-bottom:8px">Caminhar 4m sem obstáculos, o mais rápido possível sem correr. Usar menor tempo.</div>
+        <div class="row2">
+          <div class="field"><label>Tempo 1 (seg)</label><input type="number" step="0.1" min="0" id="vm1" placeholder="s" oninput="calcVM()"></div>
+          <div class="field"><label>Tempo 2 (seg)</label><input type="number" step="0.1" min="0" id="vm2" placeholder="s" oninput="calcVM()"></div>
+        </div>
+        <div class="score-box" style="margin-top:6px">
+          <span class="sc-label">Vel. marcha</span>
+          <span class="sc-val" id="vmScore">— m/s</span>
+        </div>
+        <div class="score-interp" id="vmInterp">Baixo desempenho: &lt; 0,8 m/s</div>
+        </div>
+      </div>
+
+      <!-- SARC-F CC -->
+      <div class="field">
+        <label>9.5 — SARC-F + Circunferência da Panturrilha</label>
+        <button class="na-btn" onclick="toggleNA(this,'na-sarc')">○ Não aplicável</button>
+        <span class="na-tag">Não aplicável</span>
+        <div class="na-overlay" id="na-sarc">
+        <div style="display:flex;flex-direction:column;gap:6px">
+          <div class="scale-item"><span class="s-label">Carregar 5 kg</span><div class="scale-opts"><div class="s-btn" onclick="setSarc(this,0,'sf1')">0</div><div class="s-btn" onclick="setSarc(this,1,'sf1')">1</div><div class="s-btn" onclick="setSarc(this,2,'sf1')">2</div></div></div>
+          <div class="scale-item"><span class="s-label">Atravessar um cômodo</span><div class="scale-opts"><div class="s-btn" onclick="setSarc(this,0,'sf2')">0</div><div class="s-btn" onclick="setSarc(this,1,'sf2')">1</div><div class="s-btn" onclick="setSarc(this,2,'sf2')">2</div></div></div>
+          <div class="scale-item"><span class="s-label">Levantar da cama/cadeira</span><div class="scale-opts"><div class="s-btn" onclick="setSarc(this,0,'sf3')">0</div><div class="s-btn" onclick="setSarc(this,1,'sf3')">1</div><div class="s-btn" onclick="setSarc(this,2,'sf3')">2</div></div></div>
+          <div class="scale-item"><span class="s-label">Subir 10 degraus</span><div class="scale-opts"><div class="s-btn" onclick="setSarc(this,0,'sf4')">0</div><div class="s-btn" onclick="setSarc(this,1,'sf4')">1</div><div class="s-btn" onclick="setSarc(this,2,'sf4')">2</div></div></div>
+          <div class="scale-item"><span class="s-label">Quedas no último ano</span><div class="scale-opts"><div class="s-btn" onclick="setSarc(this,0,'sf5')">0</div><div class="s-btn" onclick="setSarc(this,1,'sf5')">1</div><div class="s-btn" onclick="setSarc(this,2,'sf5')">2</div></div></div>
+        </div>
+        <div class="info-box" style="margin-top:6px;margin-bottom:4px">0=Nenhuma · 1=Alguma · 2=Muita/não consigo · (quedas: 0=nenhuma · 1=1-3 · 2=≥4)</div>
+        <div class="field">
+          <label>Panturrilha direita — média 2 medidas (cm)</label>
+          <input type="number" step="0.1" min="0" id="sarcCC" placeholder="cm" oninput="calcSarc()">
+        </div>
+        <div class="info-box" style="margin-bottom:4px">CC: H ≥34cm = 0 pts · H &lt;34cm = 10 pts · M ≥33cm = 0 pts · M &lt;33cm = 10 pts</div>
+        <div class="field">
+          <label>Sexo para cálculo CC</label>
+          <div class="radio-inline">
+            <div class="radio-btn" onclick="toggleRadio(this,'sarcSexo');calcSarc()">Masc.</div>
+            <div class="radio-btn" onclick="toggleRadio(this,'sarcSexo');calcSarc()">Fem.</div>
+          </div>
+        </div>
+        <div class="score-box" style="margin-top:6px">
+          <span class="sc-label">SARC-F CC</span>
+          <span class="sc-val" id="sarcScore">— / 20</span>
+        </div>
+        <div class="score-interp" id="sarcInterp">Sarcopenia: ≥ 11 pontos</div>
+        </div>
+      </div>
+
+      <!-- MEEM -->
+      <div class="field">
+        <label>9.6 — MEEM (Mini Exame do Estado Mental)</label>
+        <button class="na-btn" onclick="toggleNA(this,'na-meem')">○ Não aplicável</button>
+        <span class="na-tag">Não aplicável</span>
+        <div class="na-overlay" id="na-meem">
+        <div style="display:flex;flex-direction:column;gap:4px;margin-bottom:6px">
+          <div style="font-size:11px;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:0.05em;padding:6px 0 4px">Orientação temporal — marque cada item correto (0–5)</div>
+          <div style="display:flex;flex-direction:column;gap:6px">
+            <label class="checkbox-item"><input type="checkbox" id="m1" onchange="calcMEEM()"><span>Dia da semana</span></label>
+            <label class="checkbox-item"><input type="checkbox" id="m2" onchange="calcMEEM()"><span>Dia do mês</span></label>
+            <label class="checkbox-item"><input type="checkbox" id="m3" onchange="calcMEEM()"><span>Mês</span></label>
+            <label class="checkbox-item"><input type="checkbox" id="m4" onchange="calcMEEM()"><span>Ano</span></label>
+            <label class="checkbox-item"><input type="checkbox" id="m5" onchange="calcMEEM()"><span>Hora aproximada</span></label>
+          </div>
+          <div style="font-size:11px;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:0.05em;padding:10px 0 4px">Orientação espacial — marque cada item correto (0–5)</div>
+          <div style="display:flex;flex-direction:column;gap:6px">
+            <label class="checkbox-item"><input type="checkbox" id="m6" onchange="calcMEEM()"><span>Local específico</span></label>
+            <label class="checkbox-item"><input type="checkbox" id="m7" onchange="calcMEEM()"><span>Instituição</span></label>
+            <label class="checkbox-item"><input type="checkbox" id="m8" onchange="calcMEEM()"><span>Bairro</span></label>
+            <label class="checkbox-item"><input type="checkbox" id="m9" onchange="calcMEEM()"><span>Cidade</span></label>
+            <label class="checkbox-item"><input type="checkbox" id="m10" onchange="calcMEEM()"><span>Estado</span></label>
+          </div>
+          <div style="font-size:11px;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:0.05em;padding:6px 0 2px">Memória imediata (0–3) · Caneca, Tijolo, Tapete</div>
+          <div class="field"><input type="number" id="meem_mem" min="0" max="3" placeholder="0–3" oninput="calcMEEM()"></div>
+          <div style="font-size:11px;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:0.05em;padding:6px 0 2px">Atenção e cálculo (0–5) · 100-7 × 5 ou MUNDO invertido</div>
+          <div class="field"><input type="number" id="meem_atenc" min="0" max="5" placeholder="0–5" oninput="calcMEEM()"></div>
+          <div style="font-size:11px;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:0.05em;padding:6px 0 2px">Evocação (0–3)</div>
+          <div class="field"><input type="number" id="meem_evoc" min="0" max="3" placeholder="0–3" oninput="calcMEEM()"></div>
+          <div style="font-size:11px;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:0.05em;padding:6px 0 2px">Linguagem (0–9)</div>
+          <div class="field"><input type="number" id="meem_ling" min="0" max="9" placeholder="0–9" oninput="calcMEEM()"></div>
+          <div style="font-size:11px;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:0.05em;padding:6px 0 4px">Nomear um relógio e uma caneta (0–2)</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+            <div style="padding:10px 12px;border:0.5px solid var(--border);border-radius:var(--radius);background:var(--bg2)">
+              <div style="font-size:12px;color:var(--text2);margin-bottom:6px">Relógio <span style="font-size:10px;color:var(--text3)">(1 ponto)</span></div>
+              <div style="display:flex;gap:8px">
+                <button type="button" id="btn_relogio_0" onclick="setNomear('relogio',0)" style="flex:1;padding:6px;border:1px solid var(--border2);border-radius:6px;background:var(--bg3);font-size:13px;cursor:pointer">Não</button>
+                <button type="button" id="btn_relogio_1" onclick="setNomear('relogio',1)" style="flex:1;padding:6px;border:1px solid var(--border2);border-radius:6px;background:var(--bg3);font-size:13px;cursor:pointer">Sim</button>
+              </div>
+              <input type="hidden" id="m_relogio_val" value="0">
+            </div>
+            <div style="padding:10px 12px;border:0.5px solid var(--border);border-radius:var(--radius);background:var(--bg2)">
+              <div style="font-size:12px;color:var(--text2);margin-bottom:6px">Caneta <span style="font-size:10px;color:var(--text3)">(1 ponto)</span></div>
+              <div style="display:flex;gap:8px">
+                <button type="button" id="btn_caneta_0" onclick="setNomear('caneta',0)" style="flex:1;padding:6px;border:1px solid var(--border2);border-radius:6px;background:var(--bg3);font-size:13px;cursor:pointer">Não</button>
+                <button type="button" id="btn_caneta_1" onclick="setNomear('caneta',1)" style="flex:1;padding:6px;border:1px solid var(--border2);border-radius:6px;background:var(--bg3);font-size:13px;cursor:pointer">Sim</button>
+              </div>
+              <input type="hidden" id="m_caneta_val" value="0">
+            </div>
+          </div>
+          <div style="font-size:11px;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:0.05em;padding:6px 0 2px">Repetir "nem aqui nem ali nem lá" (0–1)</div>
+          <div class="field"><input type="number" id="meem_repeticao" min="0" max="1" placeholder="0–1" oninput="calcMEEM()"></div>
+          <div style="font-size:11px;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:0.05em;padding:6px 0 2px">Comando 3 etapas: "pegue este papel com a mão direita, dobre ao meio e coloque no chão" (0–3)</div>
+          <div class="field"><input type="number" id="meem_comando3" min="0" max="3" placeholder="0–3" oninput="calcMEEM()"></div>
+          <div style="font-size:11px;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:0.05em;padding:6px 0 2px">Ler e obedecer: "feche os olhos" (0–1)</div>
+          <div class="field"><input type="number" id="meem_fechaolhos" min="0" max="1" placeholder="0–1" oninput="calcMEEM()"></div>
+          <div style="font-size:11px;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:0.05em;padding:6px 0 2px">Escrever uma frase (0–1)</div>
+          <div class="field"><input type="number" id="meem_frase" min="0" max="1" placeholder="0–1" oninput="calcMEEM()"></div>
+          <div style="font-size:11px;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:0.05em;padding:6px 0 2px">Copiar o desenho (0–1)</div>
+          <div class="field"><input type="number" id="meem_desenho" min="0" max="1" placeholder="0–1" oninput="calcMEEM()"></div>
+        </div>
+        <div class="score-box">
+          <span class="sc-label">MEEM</span>
+          <span class="sc-val" id="meemScore">— / 39</span>
+        </div>
+        <div class="info-box" style="margin-top:6px">Pontos de corte: analfabeto ≥20 · 1-4a ≥25 · 5-8a ≥26 · 9-11a ≥28 · &gt;11a ≥29</div>
+        </div>
+      </div>
+
+      <!-- GDS -->
+      <div class="field">
+        <label>9.7 — GDS — Escala de Depressão Geriátrica (15 itens)</label>
+        <button class="na-btn" onclick="toggleNA(this,'na-gds')">○ Não aplicável</button>
+        <span class="na-tag">Não aplicável</span>
+        <div class="na-overlay" id="na-gds">
+        <div style="display:flex;flex-direction:column;gap:5px" id="gdsList">
+          <!-- itens gerados por JS -->
+        </div>
+        <div class="score-box" style="margin-top:8px">
+          <span class="sc-label">GDS</span>
+          <span class="sc-val" id="gdsScore">0 / 15</span>
+        </div>
+        <div class="score-interp" id="gdsInterp">0-5: normal · 6-10: depressão leve · 11-15: depressão severa</div>
+        </div>
+      </div>
+
+      <!-- MAN -->
+      <div class="field">
+        <label>9.8 — MAN (Mini Avaliação Nutricional)</label>
+        <button class="na-btn" onclick="toggleNA(this,'na-man')">○ Não aplicável</button>
+        <span class="na-tag">Não aplicável</span>
+        <div class="na-overlay" id="na-man">
+
+        <div style="font-size:11px;font-weight:600;color:var(--text2);text-transform:uppercase;margin:4px 0 6px;letter-spacing:0.05em">Triagem (máx. 14 pts)</div>
+        <div style="display:flex;flex-direction:column;gap:6px">
+          <div class="scale-item"><span class="s-label">A. Diminuição da ingesta nos últimos 3 meses</span><div class="scale-opts"><div class="s-btn" onclick="setMAN(this,0,'ma1')">0</div><div class="s-btn" onclick="setMAN(this,1,'ma1')">1</div><div class="s-btn" onclick="setMAN(this,2,'ma1')">2</div></div></div>
+          <div class="scale-item"><span class="s-label">B. Perda de peso nos últimos 3 meses</span><div class="scale-opts"><div class="s-btn" onclick="setMAN(this,0,'ma2')">0</div><div class="s-btn" onclick="setMAN(this,1,'ma2')">1</div><div class="s-btn" onclick="setMAN(this,2,'ma2')">2</div><div class="s-btn" onclick="setMAN(this,3,'ma2')">3</div></div></div>
+          <div class="scale-item"><span class="s-label">C. Mobilidade</span><div class="scale-opts"><div class="s-btn" onclick="setMAN(this,0,'ma3')">0</div><div class="s-btn" onclick="setMAN(this,1,'ma3')">1</div><div class="s-btn" onclick="setMAN(this,2,'ma3')">2</div></div></div>
+          <div class="scale-item"><span class="s-label">D. Stress psicológico / doença aguda últimos 3 meses</span><div class="scale-opts"><div class="s-btn" onclick="setMAN(this,0,'ma4')">0</div><div class="s-btn" onclick="setMAN(this,2,'ma4')">2</div></div></div>
+          <div class="scale-item"><span class="s-label">E. Problemas neuropsicológicos</span><div class="scale-opts"><div class="s-btn" onclick="setMAN(this,0,'ma5')">0</div><div class="s-btn" onclick="setMAN(this,1,'ma5')">1</div><div class="s-btn" onclick="setMAN(this,2,'ma5')">2</div></div></div>
+          <div class="scale-item"><span class="s-label">F. IMC (kg/m²)</span><div class="scale-opts"><div class="s-btn" onclick="setMAN(this,0,'ma6')">0</div><div class="s-btn" onclick="setMAN(this,1,'ma6')">1</div><div class="s-btn" onclick="setMAN(this,2,'ma6')">2</div><div class="s-btn" onclick="setMAN(this,3,'ma6')">3</div></div></div>
+        </div>
+        <div class="score-box" style="margin-top:6px">
+          <span class="sc-label">MAN Triagem</span>
+          <span class="sc-val" id="manTriagemScore">— / 14</span>
+        </div>
+        <div class="score-interp">12-14: normal · 8-11: sob risco · 0-7: desnutrido · Se ≤11 continuar avaliação global</div>
+
+        <div style="font-size:11px;font-weight:600;color:var(--text2);text-transform:uppercase;margin:10px 0 6px;letter-spacing:0.05em">Avaliação Global (máx. 16 pts) — preencher se triagem ≤11</div>
+        <div style="display:flex;flex-direction:column;gap:6px">
+          <div class="scale-item"><span class="s-label">G. Vive na própria casa</span><div class="scale-opts"><div class="s-btn" onclick="setMAN(this,0,'mg1')">0</div><div class="s-btn" onclick="setMAN(this,1,'mg1')">1</div></div></div>
+          <div class="scale-item"><span class="s-label">H. Usa &gt;3 medicamentos/dia</span><div class="scale-opts"><div class="s-btn" onclick="setMAN(this,0,'mg2')">0</div><div class="s-btn" onclick="setMAN(this,1,'mg2')">1</div></div></div>
+          <div class="scale-item"><span class="s-label">I. Lesões de pele ou escaras</span><div class="scale-opts"><div class="s-btn" onclick="setMAN(this,0,'mg3')">0</div><div class="s-btn" onclick="setMAN(this,1,'mg3')">1</div></div></div>
+          <div class="scale-item"><span class="s-label">J. Refeições completas por dia</span><div class="scale-opts"><div class="s-btn" onclick="setMAN(this,0,'mg4')">0</div><div class="s-btn" onclick="setMAN(this,1,'mg4')">1</div><div class="s-btn" onclick="setMAN(this,2,'mg4')">2</div></div></div>
+          <div class="scale-item"><span class="s-label">K. Proteínas (leite, leguminosas, carne)</span><div class="scale-opts"><div class="s-btn" onclick="setMAN(this,0,'mg5')">0</div><div class="s-btn" onclick="setMAN(this,0.5,'mg5')">0,5</div><div class="s-btn" onclick="setMAN(this,1,'mg5')">1</div></div></div>
+          <div class="scale-item"><span class="s-label">L. ≥ 2 porções de frutas/legumes/dia</span><div class="scale-opts"><div class="s-btn" onclick="setMAN(this,0,'mg6')">0</div><div class="s-btn" onclick="setMAN(this,1,'mg6')">1</div></div></div>
+          <div class="scale-item"><span class="s-label">M. Líquidos por dia (copos)</span><div class="scale-opts"><div class="s-btn" onclick="setMAN(this,0,'mg7')">0</div><div class="s-btn" onclick="setMAN(this,0.5,'mg7')">0,5</div><div class="s-btn" onclick="setMAN(this,1,'mg7')">1</div></div></div>
+          <div class="scale-item"><span class="s-label">N. Modo de se alimentar</span><div class="scale-opts"><div class="s-btn" onclick="setMAN(this,0,'mg8')">0</div><div class="s-btn" onclick="setMAN(this,1,'mg8')">1</div><div class="s-btn" onclick="setMAN(this,2,'mg8')">2</div></div></div>
+          <div class="scale-item"><span class="s-label">O. Acredita ter problema nutricional</span><div class="scale-opts"><div class="s-btn" onclick="setMAN(this,0,'mg9')">0</div><div class="s-btn" onclick="setMAN(this,1,'mg9')">1</div><div class="s-btn" onclick="setMAN(this,2,'mg9')">2</div></div></div>
+          <div class="scale-item"><span class="s-label">P. Saúde comparada a pessoas da mesma idade</span><div class="scale-opts"><div class="s-btn" onclick="setMAN(this,0,'mg10')">0</div><div class="s-btn" onclick="setMAN(this,0.5,'mg10')">0,5</div><div class="s-btn" onclick="setMAN(this,1,'mg10')">1</div><div class="s-btn" onclick="setMAN(this,2,'mg10')">2</div></div></div>
+          <div class="scale-item"><span class="s-label">Q. Perímetro braquial (cm)</span><div class="scale-opts"><div class="s-btn" onclick="setMAN(this,0,'mg11')">0</div><div class="s-btn" onclick="setMAN(this,0.5,'mg11')">0,5</div><div class="s-btn" onclick="setMAN(this,1,'mg11')">1</div></div></div>
+          <div class="scale-item"><span class="s-label">R. Perímetro da perna (cm)</span><div class="scale-opts"><div class="s-btn" onclick="setMAN(this,0,'mg12')">0</div><div class="s-btn" onclick="setMAN(this,1,'mg12')">1</div></div></div>
+        </div>
+        <div class="score-box" style="margin-top:6px">
+          <span class="sc-label">MAN Total</span>
+          <span class="sc-val" id="manTotalScore">— / 30</span>
+        </div>
+        <div class="score-interp" id="manInterp">24-30: normal · 17-23,5: sob risco · &lt;17: desnutrido</div>
+        </div>
+      </div>
+
+    </div>
+  </div>  <!-- ====== IMAGEM ====== -->
+  <div class="card" id="sec-imagem">
+    <div class="card-header"><span>📷 Imagem / Anexo</span></div>
+    <div class="card-body">
+      <div class="field">
+        <label>Importar imagem</label>
+        <div id="imgDropArea" onclick="document.getElementById('imgInput').click()" style="border:1.5px dashed var(--border2);border-radius:var(--radius);padding:24px 16px;text-align:center;cursor:pointer;background:var(--bg2);transition:background 0.15s">
+          <div style="font-size:28px;margin-bottom:6px">🖼</div>
+          <div style="font-size:14px;color:var(--text2)">Toque para selecionar uma imagem</div>
+          <div style="font-size:11px;color:var(--text3);margin-top:4px">JPG, PNG, GIF suportados</div>
+        </div>
+        <input type="file" id="imgInput" accept="image/*" style="display:none" onchange="loadImage(this)">
+      </div>
+      <div id="imgPreviewWrap" style="display:none">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+          <span style="font-size:11px;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:0.04em">Imagem carregada</span>
+          <button class="del-btn" onclick="removeImage()">✕ Remover</button>
+        </div>
+        <img id="imgPreview" src="" alt="Imagem" style="width:100%;border-radius:var(--radius);border:0.5px solid var(--border);max-height:400px;object-fit:contain">
+        <div class="field" style="margin-top:8px"><label>Legenda / observação</label><input type="text" id="imgLegenda" placeholder="Descreva a imagem..."></div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ASSINATURA -->
+  <div class="card">
+    <div class="card-header"><span>Assinatura</span></div>
+    <div class="card-body">
+      <div class="field"><label>Nome</label><input type="text" value="Bruna Costa Silveira"></div>
+      <div class="field"><label>CREFITO</label><input type="text" value="393748-F"></div>
+    </div>
+  </div>
+
+  <button class="print-btn" onclick="window.print()">🖨 Imprimir / Exportar PDF</button>
 </div>
 
+<div class="save-badge no-print" id="saveBadge"><span class="pulse"></span><span id="saveBadgeText">Salvo</span></div>
 <div class="toast" id="toast"></div>
-
-<script src="app.js"></script>
+<script src="app.js" defer></script>
 </body>
 </html>
