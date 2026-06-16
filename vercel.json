@@ -1,5 +1,4 @@
 {
-  "public": true,
   "buildCommand": "echo Done",
   "outputDirectory": "."
 }
