@@ -55,14 +55,14 @@
   <div class="card" id="sec-dados">
     <div class="card-header"><span>1. Dados Gerais</span></div>
     <div class="card-body">
-      <div class="field"><label>Nome completo</label><input type="text" placeholder="Nome do paciente"></div>
+      <div class="field"><label>Nome completo</label><input type="text" id="nomeCompleto" placeholder="Nome do paciente"></div>
       <div class="row2">
-        <div class="field"><label>Data de nascimento</label><input type="date"></div>
-        <div class="field"><label>Idade</label><input type="number" placeholder="anos" min="0" max="130"></div>
+        <div class="field"><label>Data de nascimento</label><input type="date" id="dataNasc"></div>
+        <div class="field"><label>Idade</label><input type="number" id="idadePac" placeholder="anos" min="0" max="130"></div>
       </div>
       <div class="row2">
         <div class="field"><label>Estado civil</label>
-          <select>
+          <select id="estCivil">
             <option value="">Selecione</option>
             <option>Solteiro(a)</option>
             <option>Casado(a)</option>
@@ -71,27 +71,27 @@
             <option>União estável</option>
           </select>
         </div>
-        <div class="field"><label>Escolaridade (anos)</label><input type="number" placeholder="anos" min="0"></div>
+        <div class="field"><label>Escolaridade (anos)</label><input type="number" id="escolaridade" placeholder="anos" min="0"></div>
       </div>
       <div class="row2">
-        <div class="field"><label>Profissão</label><input type="text" placeholder="Profissão"></div>
-        <div class="field"><label>Ocupação</label><input type="text" placeholder="Ocupação atual"></div>
+        <div class="field"><label>Profissão</label><input type="text" id="profissao" placeholder="Profissão"></div>
+        <div class="field"><label>Ocupação</label><input type="text" id="ocupacao" placeholder="Ocupação atual"></div>
       </div>
-      <div class="field"><label>Telefone</label><input type="tel" placeholder="(00) 00000-0000"></div>
-      <div class="field"><label>Acompanhante e relação</label><input type="text" placeholder="Ex.: Maria (filha)"></div>
+      <div class="field"><label>Telefone</label><input type="tel" id="telefone" placeholder="(00) 00000-0000"></div>
+      <div class="field"><label>Acompanhante e relação</label><input type="text" id="acompanhante" placeholder="Ex.: Maria (filha)"></div>
       <div class="field"><label>Familiar referência 1</label>
         <div class="row2">
-          <input type="text" placeholder="Nome">
-          <input type="tel" placeholder="Telefone">
+          <input type="text" id="fam1nome" placeholder="Nome">
+          <input type="tel" id="fam1tel" placeholder="Telefone">
         </div>
       </div>
       <div class="field"><label>Familiar referência 2</label>
         <div class="row2">
-          <input type="text" placeholder="Nome">
-          <input type="tel" placeholder="Telefone">
+          <input type="text" id="fam2nome" placeholder="Nome">
+          <input type="tel" id="fam2tel" placeholder="Telefone">
         </div>
       </div>
-      <div class="field"><label>Seguimentos médicos</label><textarea placeholder="Especialidades e serviços em que realiza acompanhamento"></textarea></div>
+      <div class="field"><label>Seguimentos médicos</label><textarea id="seguimentos" placeholder="Especialidades e serviços em que realiza acompanhamento"></textarea></div>
     </div>
   </div>
 
@@ -108,7 +108,7 @@
           <div class="radio-btn" onclick="toggleConditional(this,'tabag','tabag-det',false)">Não</div>
         </div>
         <div class="conditional" id="tabag-det">
-          <div class="field" style="margin-top:6px"><input type="text" placeholder="Carga tabágica (maços-ano)"></div>
+          <div class="field" style="margin-top:6px"><input type="text" id="tabagDet" placeholder="Carga tabágica (maços-ano)"></div>
         </div>
       </div>
       <div class="field">
@@ -119,8 +119,8 @@
         </div>
         <div class="conditional" id="etil-det">
           <div class="row2" style="margin-top:6px">
-            <div class="field"><input type="text" placeholder="O quê?"></div>
-            <div class="field"><input type="text" placeholder="Quantidade (ml)"></div>
+            <div class="field"><input type="text" id="etilOque" placeholder="O quê?"></div>
+            <div class="field"><input type="text" id="etilQtd" placeholder="Quantidade (ml)"></div>
           </div>
         </div>
       </div>
@@ -132,8 +132,8 @@
         </div>
         <div class="conditional" id="cir-det">
           <div class="row2" style="margin-top:6px">
-            <div class="field"><input type="text" placeholder="Quais?"></div>
-            <div class="field"><input type="text" placeholder="Há quanto tempo?"></div>
+            <div class="field"><input type="text" id="cirQuais" placeholder="Quais?"></div>
+            <div class="field"><input type="text" id="cirTempo" placeholder="Há quanto tempo?"></div>
           </div>
         </div>
       </div>
@@ -144,7 +144,7 @@
           <div class="radio-btn" onclick="toggleConditional(this,'aler','aler-det',false)">Não</div>
         </div>
         <div class="conditional" id="aler-det">
-          <div class="field" style="margin-top:6px"><input type="text" placeholder="A quê?"></div>
+          <div class="field" style="margin-top:6px"><input type="text" id="alerDet" placeholder="A quê?"></div>
         </div>
       </div>
     </div>
@@ -176,7 +176,7 @@
         </table>
       </div>
       <button class="add-btn" onclick="addMed()">＋ Adicionar medicamento</button>
-      <div class="field"><label>QP e HDA</label><textarea style="min-height:100px" placeholder="Queixa principal e história da doença atual — duração, início, evolução, localização, irradiação, intensidade, qualidade, sinais/sintomas concomitantes, fatores desencadeantes, agravantes, alívio, repercussão, tratamentos realizados"></textarea></div>
+      <div class="field"><label>QP e HDA</label><textarea id="qpHda" style="min-height:100px" placeholder="Queixa principal e história da doença atual — duração, início, evolução, localização, irradiação, intensidade, qualidade, sinais/sintomas concomitantes, fatores desencadeantes, agravantes, alívio, repercussão, tratamentos realizados"></textarea></div>
     </div>
   </div>
 
@@ -191,8 +191,8 @@
           <div class="radio-btn" onclick="toggleConditional(this,'queda','queda-det',false)">Não</div>
         </div>
         <div class="conditional" id="queda-det">
-          <div class="field" style="margin-top:8px"><label>Quantas vezes?</label><input type="number" min="0" placeholder="nº de quedas"></div>
-          <div class="field" style="margin-top:8px"><label>Como ocorreram / ambiente</label><textarea placeholder="Dentro de casa, na rua, banheiro..."></textarea></div>
+          <div class="field" style="margin-top:8px"><label>Quantas vezes?</label><input type="number" id="quedaNum" min="0" placeholder="nº de quedas"></div>
+          <div class="field" style="margin-top:8px"><label>Como ocorreram / ambiente</label><textarea id="quedaLocal" placeholder="Dentro de casa, na rua, banheiro..."></textarea></div>
           <div class="field" style="margin-top:8px">
             <label>Mecanismo</label>
             <div class="tags-row">
@@ -203,7 +203,7 @@
               <span class="tag-check" onclick="this.classList.toggle('active')">Outro</span>
             </div>
           </div>
-          <div class="field" style="margin-top:8px"><label>Sintomas antes de cair</label><textarea placeholder="Tontura, fraqueza, visão turva..."></textarea></div>
+          <div class="field" style="margin-top:8px"><label>Sintomas antes de cair</label><textarea id="quedaSint" placeholder="Tontura, fraqueza, visão turva..."></textarea></div>
         </div>
       </div>
     </div>
@@ -214,15 +214,15 @@
     <div class="card-header"><span>7. Exame Físico</span></div>
     <div class="card-body">
 
-      <div class="field"><label>Inspeção</label><textarea placeholder="Aspectos gerais observados na inspeção"></textarea></div>
+      <div class="field"><label>Inspeção</label><textarea id="inspGeral" placeholder="Aspectos gerais observados na inspeção"></textarea></div>
 
       <div class="field">
         <label>Pressão arterial</label>
         <div class="row2" style="margin-top:4px">
-          <div class="field"><label>MSD</label><input type="text" placeholder="000/00 mmHg"></div>
-          <div class="field"><label>MSE</label><input type="text" placeholder="000/00 mmHg"></div>
+          <div class="field"><label>MSD</label><input type="text" id="pa1" placeholder="000/00 mmHg"></div>
+          <div class="field"><label>MSE</label><input type="text" id="pa2" placeholder="000/00 mmHg"></div>
         </div>
-        <div class="field" style="margin-top:8px"><label>PA em pé (membro da PA mais alta)</label><input type="text" placeholder="000/00 mmHg"></div>
+        <div class="field" style="margin-top:8px"><label>PA em pé (membro da PA mais alta)</label><input type="text" id="pa3" placeholder="000/00 mmHg"></div>
       </div>
 
       <div class="row2">
@@ -232,22 +232,22 @@
       <div class="field"><label>IMC calculado</label><input type="text" id="imcVal" placeholder="—" readonly style="background:var(--bg3)"></div>
 
       <div class="row2">
-        <div class="field"><label>Circ. abdominal (cm)</label><input type="number" placeholder="cm"></div>
+        <div class="field"><label>Circ. abdominal (cm)</label><input type="number" id="circAbdom" placeholder="cm"></div>
         <div class="field"><label>Circ. panturrilha (cm)</label><input type="number" placeholder="cm" id="pantDireita"></div>
       </div>
       <div class="info-box">Baixa massa muscular: H &lt; 34 cm · M &lt; 33 cm</div>
 
       <div class="row3">
-        <div class="field"><label>FC (bpm)</label><input type="number" placeholder="bpm"></div>
-        <div class="field"><label>FR (rpm)</label><input type="number" placeholder="rpm"></div>
-        <div class="field"><label>SpO₂ (%)</label><input type="number" placeholder="%"></div>
+        <div class="field"><label>FC (bpm)</label><input type="number" id="fc" placeholder="bpm"></div>
+        <div class="field"><label>FR (rpm)</label><input type="number" id="fr" placeholder="rpm"></div>
+        <div class="field"><label>SpO₂ (%)</label><input type="number" id="spo2" placeholder="%"></div>
       </div>
 
-      <div class="field"><label>Tax (°C)</label><input type="number" placeholder="°C" step="0.1"></div>
+      <div class="field"><label>Tax (°C)</label><input type="number" id="temp" placeholder="°C" step="0.1"></div>
 
-      <div class="field"><label>Ausculta pulmonar</label><input type="text" placeholder="AP"></div>
+      <div class="field"><label>Ausculta pulmonar</label><input type="text" id="ausculta" placeholder="AP"></div>
 
-      <div class="field"><label>Membros inferiores</label><textarea placeholder="Edemas, varizes, pulsos..."></textarea></div>
+      <div class="field"><label>Membros inferiores</label><textarea id="circulacao" placeholder="Edemas, varizes, pulsos..."></textarea></div>
 
     </div>
   </div>
@@ -273,9 +273,9 @@
           <span class="tag-check" onclick="this.classList.toggle('active')">Eritema</span>
           <span class="tag-check" onclick="this.classList.toggle('active')">Outro</span>
         </div>
-        <div class="field" style="margin-top:8px"><input type="text" placeholder="Observações"></div>
+        <div class="field" style="margin-top:8px"><input type="text" id="forcaObs" placeholder="Observações"></div>
       </div>
-      <div class="field"><label>Testes específicos</label><textarea placeholder="Testes realizados e resultados"></textarea></div>
+      <div class="field"><label>Testes específicos</label><textarea id="testesFisio" placeholder="Testes realizados e resultados"></textarea></div>
       <div class="field">
         <label>Avaliação da dor (EVA)</label>
         <div class="eva-wrap">
@@ -288,9 +288,9 @@
           <div class="eva-labels"><span>0 — Sem dor</span><span>5 — Moderada</span><span>10 — Máxima</span></div>
         </div>
       </div>
-      <div class="field"><label>Objetivos terapêuticos</label><textarea placeholder="Objetivos definidos para o tratamento fisioterapêutico"></textarea></div>
-      <div class="field"><label>Recursos terapêuticos</label><textarea placeholder="Eletroterapia, cinesioterapia, termoterapia..."></textarea></div>
-      <div class="field"><label>Plano de tratamento</label><textarea style="min-height:80px" placeholder="Frequência, duração, técnicas e procedimentos"></textarea></div>
+      <div class="field"><label>Objetivos terapêuticos</label><textarea id="objetivos" placeholder="Objetivos definidos para o tratamento fisioterapêutico"></textarea></div>
+      <div class="field"><label>Recursos terapêuticos</label><textarea id="recursos" placeholder="Eletroterapia, cinesioterapia, termoterapia..."></textarea></div>
+      <div class="field"><label>Plano de tratamento</label><textarea id="programa" style="min-height:80px" placeholder="Frequência, duração, técnicas e procedimentos"></textarea></div>
     </div>
   </div>
 

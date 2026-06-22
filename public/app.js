@@ -577,14 +577,14 @@ function clearSavedData() {
 }
 
 window.addEventListener('load', function(){
-  var dv = document.getElementById('dataAval');
-  if(dv) dv.valueAsDate = new Date();
-
   // Tentar restaurar dados salvos; se não houver, criar padrão
   var hasSaved = localStorage.getItem('fisio-form-data');
   if(hasSaved) {
     loadFormData();
   } else {
+    // Só preenche data de hoje se não há dados salvos
+    var dv = document.getElementById('dataAval');
+    if(dv) dv.valueAsDate = new Date();
     addMed(); addMed(); addMed();
     addProblema(); addProblema(); addProblema();
   }
