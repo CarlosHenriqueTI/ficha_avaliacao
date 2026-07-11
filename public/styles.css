@@ -50,6 +50,18 @@
   --font-body:    'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 
   --max-w: 760px;
+
+  /* Compatibilidade: nomes antigos de variáveis usados em estilos inline
+     ao longo do documento, mapeados para os tokens atuais */
+  --text:    var(--ink);
+  --text2:   var(--ink-2);
+  --text3:   var(--ink-3);
+  --border:  var(--line);
+  --border2: var(--line-strong);
+  --bg2:     var(--bg-soft);
+  --bg3:     var(--bg-mute);
+  --radius:  var(--r-md);
+  --accent:  var(--brand);
 }
 
 html[data-theme="dark"],
@@ -609,6 +621,22 @@ html.dark .add-btn:hover{color:var(--brand-2)}
 html.dark .r-btn.active.verde{background:#0D3B28;color:#5ECFA3}
 html.dark .r-btn.active.amarelo{background:#3B2D08;color:#F0B84A}
 html.dark .r-btn.active.vermelho{background:#3B0D0D;color:#F08080}
+
+/* ---------- Nomear (Sim/Não) — MEEM ---------- */
+.nomear-btn{
+  flex:1;padding:6px;border:1px solid var(--line-strong);border-radius:6px;
+  background:var(--bg-soft);font-size:13px;color:var(--ink-2);cursor:pointer;
+  font-family:inherit;font-weight:500;transition:all .15s ease;
+}
+.nomear-btn:hover{
+  border-color:var(--brand);color:var(--brand-ink);
+  background:color-mix(in oklab, var(--brand-soft) 45%, var(--bg));
+}
+.nomear-btn.active{
+  background:var(--brand);border-color:var(--brand);color:#fff;font-weight:700;
+}
+.nomear-btn.active:hover{filter:brightness(1.08)}
+html.dark .nomear-btn:hover{color:var(--brand-2)}
 
 /* ---------- N/A ---------- */
 .na-btn{

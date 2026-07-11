@@ -34,6 +34,9 @@ function scrollTo(id) {
   var el = document.getElementById(id);
   if(el) el.scrollIntoView({behavior:'smooth', block:'start'});
 }
+function scrollToTop() {
+  window.scrollTo({top:0, left:0, behavior:'smooth'});
+}
 
 // ---- Dimensões flexíveis dos campos de texto ----
 // Faz o textarea crescer junto com o conteúdo, para nunca cortar texto na tela nem na impressão
@@ -283,8 +286,8 @@ function setNomear(item,val){
   var hv=document.getElementById('m_'+item+'_val'); if(hv) hv.value=val;
   var b0=document.getElementById('btn_'+item+'_0');
   var b1=document.getElementById('btn_'+item+'_1');
-  if(b0){b0.style.background=val===0?'var(--accent)':'var(--bg3)';b0.style.color=val===0?'#fff':'';}
-  if(b1){b1.style.background=val===1?'var(--accent)':'var(--bg3)';b1.style.color=val===1?'#fff':'';}
+  if(b0) b0.classList.toggle('active', val===0);
+  if(b1) b1.classList.toggle('active', val===1);
   calcMEEM();
 }
 function calcMEEM(){

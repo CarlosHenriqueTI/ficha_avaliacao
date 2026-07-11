@@ -14,7 +14,7 @@
 <body>
 <div class="doc">
 
-  <header class="header" id="topo" role="button" tabindex="0" title="Voltar ao topo da ficha" aria-label="Voltar ao topo da ficha" onclick="if(!event.target.closest('.header-actions')) scrollTo('topo')" onkeydown="if((event.key==='Enter'||event.key===' ') && !event.target.closest('.header-actions')){ event.preventDefault(); scrollTo('topo'); }">
+  <header class="header" id="topo" role="button" tabindex="0" title="Voltar ao topo da ficha" aria-label="Voltar ao topo da ficha" onclick="if(!event.target.closest('.header-actions')) scrollToTop()" onkeydown="if((event.key==='Enter'||event.key===' ') && !event.target.closest('.header-actions')){ event.preventDefault(); scrollToTop(); }">
     <div class="header-actions no-print">
       <button class="icon-btn" id="themeToggle" title="Alternar tema" aria-label="Alternar tema">◐</button>
       <button class="icon-btn" id="saveBtn" title="Salvar informações" aria-label="Salvar informações">💾</button>
@@ -471,16 +471,16 @@
             <div style="padding:10px 12px;border:0.5px solid var(--border);border-radius:var(--radius);background:var(--bg2)">
               <div style="font-size:12px;color:var(--text2);margin-bottom:6px">Relógio <span style="font-size:10px;color:var(--text3)">(1 ponto)</span></div>
               <div style="display:flex;gap:8px">
-                <button type="button" id="btn_relogio_0" onclick="setNomear('relogio',0)" style="flex:1;padding:6px;border:1px solid var(--border2);border-radius:6px;background:var(--bg3);font-size:13px;cursor:pointer">Não</button>
-                <button type="button" id="btn_relogio_1" onclick="setNomear('relogio',1)" style="flex:1;padding:6px;border:1px solid var(--border2);border-radius:6px;background:var(--bg3);font-size:13px;cursor:pointer">Sim</button>
+                <button type="button" id="btn_relogio_0" class="nomear-btn active" onclick="setNomear('relogio',0)">Não</button>
+                <button type="button" id="btn_relogio_1" class="nomear-btn" onclick="setNomear('relogio',1)">Sim</button>
               </div>
               <input type="hidden" id="m_relogio_val" value="0">
             </div>
             <div style="padding:10px 12px;border:0.5px solid var(--border);border-radius:var(--radius);background:var(--bg2)">
               <div style="font-size:12px;color:var(--text2);margin-bottom:6px">Caneta <span style="font-size:10px;color:var(--text3)">(1 ponto)</span></div>
               <div style="display:flex;gap:8px">
-                <button type="button" id="btn_caneta_0" onclick="setNomear('caneta',0)" style="flex:1;padding:6px;border:1px solid var(--border2);border-radius:6px;background:var(--bg3);font-size:13px;cursor:pointer">Não</button>
-                <button type="button" id="btn_caneta_1" onclick="setNomear('caneta',1)" style="flex:1;padding:6px;border:1px solid var(--border2);border-radius:6px;background:var(--bg3);font-size:13px;cursor:pointer">Sim</button>
+                <button type="button" id="btn_caneta_0" class="nomear-btn active" onclick="setNomear('caneta',0)">Não</button>
+                <button type="button" id="btn_caneta_1" class="nomear-btn" onclick="setNomear('caneta',1)">Sim</button>
               </div>
               <input type="hidden" id="m_caneta_val" value="0">
             </div>
