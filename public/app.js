@@ -35,6 +35,40 @@ function scrollTo(id) {
   if(el) el.scrollIntoView({behavior:'smooth', block:'start'});
 }
 
+// ---- Dimensões flexíveis dos campos de texto ----
+// Faz o textarea crescer junto com o conteúdo, para nunca cortar texto na tela nem na impressão
+function autoGrowTextarea(el) {
+  if(!el) return;
+  el.style.height = 'auto';
+  el.style.height = (el.scrollHeight + 2) + 'px';
+}
+function initAutoGrowTextareas(scope) {
+  var root = scope || document;
+  root.querySelectorAll('textarea').forEach(function(t){
+    autoGrowTextarea(t);
+    if(!t.dataset.autoGrowBound) {
+      t.dataset.autoGrowBound = '1';
+      t.addEventListener('input', function(){ autoGrowTextarea(t); });
+    }
+  });
+}
+// Antes de imprimir: garante que textareas estejam do tamanho do conteúdo e que
+// inputs cujo texto não cabe na coluna passem a ocupar a linha inteira
+function prepareFieldsForPrint() {
+  initAutoGrowTextareas();
+  document.querySelectorAll('.row2 input, .row3 input, .row2 select, .row3 select').forEach(function(inp){
+    if(inp.scrollWidth - inp.clientWidth > 2) {
+      var wrap = inp.closest('.row2, .row3');
+      if(wrap) wrap.classList.add('print-stack');
+    }
+  });
+}
+function restoreFieldsAfterPrint() {
+  document.querySelectorAll('.print-stack').forEach(function(w){ w.classList.remove('print-stack'); });
+}
+window.addEventListener('beforeprint', prepareFieldsForPrint);
+window.addEventListener('afterprint', restoreFieldsAfterPrint);
+
 // ---- IMC ----
 function calcIMC() {
   var h = parseFloat(document.getElementById('altura').value) / 100;
@@ -103,6 +137,7 @@ function addEvolucao() {
     '<textarea class="dyn-ta" placeholder="Escreva a evolução aqui..."></textarea>';
   document.getElementById('evolucoes').appendChild(div);
   lockIfOld(div);
+  initAutoGrowTextareas(div);
 }
 
 // ---- Bloqueio 7 dias ----
@@ -553,6 +588,7 @@ function loadFormData() {
       if(typeof calcVM === 'function') calcVM();
       if(typeof rebuildGDSUI === 'function') rebuildGDSUI();
       if(typeof updateProgress === 'function') updateProgress();
+      initAutoGrowTextareas();
       console.log('[RESTORE] Restauração concluída!');
     }, 100);
 
@@ -614,6 +650,8 @@ window.addEventListener('load', function(){
       restoreBtn.style.display = 'inline-block';
     }
   }
+
+  initAutoGrowTextareas();
 });
 
 
@@ -708,6 +746,7 @@ window.addEventListener('load', function(){
     buildGDS();
 
     updateProgress();
+    initAutoGrowTextareas();
     showToast('✓ Ficha zerada com sucesso!');
   });
 

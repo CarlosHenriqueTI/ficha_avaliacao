@@ -14,7 +14,7 @@
 <body>
 <div class="doc">
 
-  <header class="header">
+  <header class="header" id="topo" role="button" tabindex="0" title="Voltar ao topo da ficha" aria-label="Voltar ao topo da ficha" onclick="if(!event.target.closest('.header-actions')) scrollTo('topo')" onkeydown="if((event.key==='Enter'||event.key===' ') && !event.target.closest('.header-actions')){ event.preventDefault(); scrollTo('topo'); }">
     <div class="header-actions no-print">
       <button class="icon-btn" id="themeToggle" title="Alternar tema" aria-label="Alternar tema">◐</button>
       <button class="icon-btn" id="saveBtn" title="Salvar informações" aria-label="Salvar informações">💾</button>
